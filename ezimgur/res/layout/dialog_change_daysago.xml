@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:padding="10dip">
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/dlg_days_et_daysago"
+            android:numeric="integer"
+            android:layout_width="100dip"
+            android:layout_margin="8dip"
+            android:layout_marginTop="0dip"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="8dip"
+            android:layout_marginBottom="0dip"
+            android:text="days ago"/>
+
+    </LinearLayout>
+        <Button
+            android:id="@+id/dialog_daysago_btnok"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:text="@string/btnChangeDaysAgoText"
+            android:padding="20dip"/>
+
+
+</LinearLayout>

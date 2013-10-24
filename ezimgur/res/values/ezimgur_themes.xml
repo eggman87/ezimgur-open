@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="EzImgur" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+
+    <item name="android:editTextStyle">@style/EditTextEzImgur</item>
+
+    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewEzImgur</item>
+
+    <item name="android:checkboxStyle">@style/CheckBoxEzImgur</item>
+
+    <item name="android:radioButtonStyle">@style/RadioButtonEzImgur</item>
+
+    <item name="android:buttonStyle">@style/ButtonEzImgur</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonEzImgur</item>
+
+    <item name="android:spinnerStyle">@style/SpinnerEzImgur</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/SpinnerEzImgur.DropDown</item>
+
+    <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemEzImgur</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarEzImgur</item>
+
+    <item name="android:seekBarStyle">@style/SeekBarEzImgur</item>
+
+    <item name="android:ratingBarStyle">@style/RatingBarEzImgur</item>
+
+    <item name="android:ratingBarStyleIndicator">@style/RatingBarBigEzImgur</item>
+
+    <item name="android:ratingBarStyleSmall">@style/RatingBarSmallEzImgur</item>
+
+    <item name="android:buttonStyleToggle">@style/ToggleEzImgur</item>
+
+    <item name="android:listViewStyle">@style/ListViewEzImgur</item>
+
+    <item name="android:listViewWhiteStyle">@style/ListViewEzImgur.White</item>
+
+    <item name="android:spinnerItemStyle">@style/SpinnerItemEzImgur</item>
+
+  </style>
+
+</resources>

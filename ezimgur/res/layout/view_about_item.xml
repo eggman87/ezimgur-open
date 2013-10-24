@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@color/Black"
+              android:orientation="vertical">
+    <TextView
+        android:id="@+id/view_about_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/ezimgur_dialog_title"
+        android:textColor="@color/White"
+        android:background="@color/Black"/>
+    <View
+        android:layout_height="2dip"
+        android:layout_width="fill_parent"
+        android:background="@color/ezimgur_red"/>
+    <TextView
+        android:id="@+id/view_about_body"
+        android:padding="10dip"
+        android:autoLink="web"
+        android:textColorLink="@color/Green"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/Gainsboro"/>
+</LinearLayout>

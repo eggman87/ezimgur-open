@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ezimgur</string>
+    <string name="activity_upload_label">upload</string>
+    <string name="activity_community_label">community</string>
+    <string name="activity_about_label">about</string>
+    <string name="activity_myimages_label">images</string>
+    <string name="activity_settings_label">settings</string>
+    <string name="activity_login">login</string>
+
+    <!-- Change Gallery Dialog -->
+    <string name="galleryChangeMessage">Change Gallery to any imgur supported gallery which includes any subreddit</string>
+    <string name="galleryCheckSaveSubreddit">Save Subreddit</string>
+    <string name="saveDisclaimer"> if you save, it is not removable yet.</string>
+    <string name="galleryTextHint">or enter subreddit here</string>
+    <string name="btnChangeGalleryText">Change</string>
+    <string name="btnCancelChangeGalleryText">Cancel</string>
+    <string name="dlg_change_make_default">Default</string>
+
+    <!-- Change Daysago Dialog -->
+    <string name="btnChangeDaysAgoText">Ok</string>
+
+    <!-- Comment Detail Dialog -->
+    <string name="dlg_comm_btnSubmitText">Submit Comment</string>
+    <string name="dlg_comm_btnCancelText">Close</string>
+    <string name="dlg_comm_txtCommentHint">reply</string>
+    <string name="dlg_comm_chkUpVote">upvote comment</string>
+
+    <!-- Gallery item detail dialog -->
+    <string name="dlg_gi_comm_txtCommentHint">add comment</string>
+    <string name="dlg_gi_comm_chkUpVote">upvote</string>
+
+    <string name="up_triangle">&#9650;</string>
+    <string name="down_triangle">&#9660;</string>
+
+    <string name="menuNotLoggedIn">TAP TO LOGIN</string>
+
+    <!-- user profile dialog -->
+    <string name="btnLogoutText">logout</string>
+
+    <!-- upload screen -->
+    <string name="upload_button_selectImage">select image</string>
+    <string name="upload_button_takePicture">take picture</string>
+    <string name="upload_button_uploadImage">upload image</string>
+    <string name="upload_label_imagetitle">title</string>
+    <string name="upload_label_imagecaption">description</string>
+    <string name="upload_check_submit_gallery">submit to gallery</string>
+
+    <string name="settings_below_image_details">force image to sit below details ribbon.</string>
+    <string name="settings_full_screen_mode">full screen mode</string>
+
+    <string name="community_info">
+        Community is currently under construction. This area will eventually allow you to interact with fellow imgurians.
+        You will be able to message and browse users. Please check back in a later release.
+    </string>
+
+    <string name="about_contributors_title">Contributors</string>
+    <string name="about_contributors_body">
+        The following have helped contribute to ezimgur:\n\n
+        Graphic Designer:Landon Meyer (imgur user masscreed)\n
+        author of zebgur, contributed app icons and graphics for zebgur, allowed use of zebgur as an app mascot/icon\n\n
+        http://imgur.com/gallery/NVZX3JX\n\n
+        please thank masscreed if you ever see him on imgur, you can also reach him via masscreed@gmail.com\n
+    </string>
+
+    <string name="about_credits_title">Credits and Licenses</string>
+    <string name="about_credits_body">
+        This App uses the following libraries:\n\n
+        ActionBarSherlock \n
+        http://actionbarsherlock.com \n
+        \u00A9 2012 Jake Wharton \n
+        Licensed Under Apache 2.0 \n
+
+        \n\n
+        Universal-Image-Loader \n
+        https://github.com/nostra13/Android-Universal-Image-Loader \n
+        \u00A9 2012 Sergey Tarasevich \n
+
+        \n\n
+        Apache License \n\n
+        Licensed under the Apache License, Version 2.0 (the \u0022License\u0022);\n
+        You may obtain a copy of the License at\n\n
+
+        http://www.apache.org/licenses/LICENSE-2.0\n\n
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and.
+        limitations under the License.
+    </string>
+
+    <string name="about_intro_title">About EzImgur</string>
+    <string name="about_intro_body">
+        Thanks for using ezimgur. This app was developed as a personal nights and weekends side project to learn android. I do not make any money on this
+        and I also have a full time job, so please forgive any frustrations you may face as far as bugs or experience.
+        Instead, if you do face any issues just drop me a message and I will fix right away.
+        I can be reached at ezimgur@gmail.com.\n\nIf you have a feature or suggestion that you want implemented,
+        just send me a message and I will add it in the work bucket.
+        \n
+    </string>
+    <string name="about_protips_title">ProTips</string>
+    <string name="about_protipps_body">
+        Here are some helpful hints for using the app:\n\n
+        1. When a image is too blurry or not visible, this means the image is huge - try long pressing the center of the image (or at least where the image should be)
+        and selecting view fullsize. \n\n
+        2. If a GIF is too wide for the screen and trying to scroll changes the image - try viewing in full size using the long press menu item.\n\n
+        3. When viewing an album - swipe up and down to scroll through the album images.\n\n
+        4. Some phones disable GIFs in the android webview. If your phone does this, gifs will not be animated.
+    </string>
+
+    <string name="about_disclaimer_title">Disclaimer</string>
+    <string name="about_disclaimer_body">
+        The Imgur logo and “IMGUR” are trademarks of Imgur LLC and are used here for informational purposes only.
+        EzImgur is not affiliated with Imgur and has not been reviewed or approved by Imgur.
+    </string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string-array name="sorts_array">
+        <item>hot</item>
+        <item>new</item>
+    </string-array>
+</resources>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:text="@string/galleryChangeMessage"/>
+        
+    <Spinner 
+        android:id="@+id/spinnerGallery"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"        
+        android:layout_width="fill_parent"/>
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="8dip"
+            android:layout_marginBottom="0dip"
+            android:text="sort by"/>
+        <Spinner
+            android:id="@+id/dlg_change_spin_sortby"
+            android:layout_margin="8dip"
+            android:layout_marginTop="0dip"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <CheckBox
+            android:id="@+id/checkMakeDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:textColor="@color/Black"
+            android:text="@string/dlg_change_make_default"/>
+    </LinearLayout>
+    <CheckBox
+        android:id="@+id/checkSaveCustomGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:textColor="@color/Black"
+        android:visibility="gone"
+        android:text="@string/galleryCheckSaveSubreddit"/>
+	<TextView 
+	    android:id="@+id/txtSaveDisclaimer"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="@string/saveDisclaimer"
+	    android:textSize="10dip"
+	    android:textColor="@color/Black"
+	    android:layout_margin="5dip"
+	    android:visibility="gone"/>    
+    <EditText 
+        android:id="@+id/txtManualGallery"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"        
+        android:inputType="textNoSuggestions"
+        android:hint="@string/galleryTextHint"/>
+
+	<LinearLayout 
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+        android:layout_margin="5dip"	    >        
+	    <Button 
+	        android:id="@+id/btnChangeGallery"
+	        android:layout_width="fill_parent"
+	        android:layout_weight="50"
+	        android:layout_height="wrap_content"
+	        android:text="@string/btnChangeGalleryText"/>    
+	    <Button 
+	        android:id="@+id/btnCancelChangeGallery"
+	        android:layout_width="fill_parent"
+	        android:layout_weight="50"
+	        android:layout_height="wrap_content"
+	        android:text="@string/btnCancelChangeGalleryText"/>
+	</LinearLayout>    
+
+</LinearLayout>

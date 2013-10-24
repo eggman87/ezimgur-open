@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <style name="Theme.ezimgur" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="actionBarItemBackground">@drawable/selectable_background_ezimgur</item>
+        <item name="popupMenuStyle">@style/ezimgur_PopupMenu</item>
+        <item name="dropDownListViewStyle">@style/ezimgur_DropDownListView</item>
+        <item name="actionBarTabStyle">@style/ezimgur_ActionBarTabStyle</item>
+        <item name="actionDropDownStyle">@style/ezimgur_DropDownNav</item>
+        <item name="actionBarStyle">@style/ezimgur_solid_ActionBar</item>
+
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_ezimgur</item>
+        <item name="android:popupMenuStyle">@style/ezimgur_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/ezimgur_DropDownListView</item>
+        <item name="android:actionBarTabStyle">@style/ezimgur_ActionBarTabStyle</item>
+        <item name="android:actionDropDownStyle">@style/ezimgur_DropDownNav</item>
+        <item name="android:actionBarStyle">@style/ezimgur_solid_ActionBar</item>
+        <!--<item name="android:panelBackground">@drawable/menu_hardkey_panel_ezimgur</item>-->
+        <item name="android:editTextStyle">@style/EditTextEzImgur</item>
+
+        <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
+        <item name="homeAsUpIndicator">@drawable/ic_drawer</item>
+        
+                <!-- Light.DarkActionBar specific -->
+        <item name="actionBarWidgetTheme">@style/Theme.ezimgur.widget</item>
+        <item name="android:actionBarWidgetTheme">@style/Theme.ezimgur.widget</item>
+        <item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item>
+
+    </style>
+
+
+
+    <style name="ezimgur_solid_ActionBar" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="background">@drawable/ab_solid_ezimgur</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_ezimgur</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_ezimgur</item>
+        <item name="progressBarStyle">@style/ezimgur_ProgressBar</item>
+
+        <item name="android:background">@drawable/ab_solid_ezimgur</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_ezimgur</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_ezimgur</item>
+        <item name="android:progressBarStyle">@style/ezimgur_ProgressBar</item>
+    </style>
+
+    <style name="ezimgur_transparent_ActionBar" parent="@style/Widget.Sherlock.ActionBar">
+        <item name="background">@drawable/ab_transparent_ezimgur</item>
+        <item name="progressBarStyle">@style/ezimgur_ProgressBar</item>
+        
+        <item name="android:background">@drawable/ab_transparent_ezimgur</item>
+        <item name="android:progressBarStyle">@style/ezimgur_ProgressBar</item>
+    </style>
+	
+    <style name="ezimgur_PopupMenu" parent="@style/Widget.Sherlock.ListPopupWindow">	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_ezimgur</item>	
+    </style>
+	
+    <style name="ezimgur_DropDownListView" parent="@style/Widget.Sherlock.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_ezimgur</item>
+    </style>
+
+    <style name="ezimgur_ActionBarTabStyle" parent="@style/Widget.Sherlock.ActionBar.TabView">
+        <item name="background">@drawable/tab_indicator_ab_ezimgur</item>
+
+        <item name="android:background">@drawable/tab_indicator_ab_ezimgur</item>
+    </style>
+	
+    <style name="ezimgur_DropDownNav" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
+        <item name="background">@drawable/spinner_background_ab_ezimgur</item>
+
+        <item name="android:background">@drawable/spinner_background_ab_ezimgur</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_ezimgur</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_ezimgur</item>
+    </style>
+    
+    <style name="ezimgur_ProgressBar" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_ezimgur</item>
+    </style>
+    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.ezimgur.widget" parent="@style/Theme.Sherlock">
+        <item name="popupMenuStyle">@style/ezimgur_PopupMenu</item>
+        <item name="dropDownListViewStyle">@style/ezimgur_DropDownListView</item>
+        
+        <item name="android:popupMenuStyle">@style/ezimgur_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/ezimgur_DropDownListView</item>
+    </style>
+
+    <style name="IndeterminateProgress" parent="@android:style/Widget.ProgressBar.Small">
+        <!-- <item name="android:indeterminateDrawable">@drawable/progress_small_holo</item>-->
+    </style>
+
+    <style name="Theme.ezimgur.Dialog" parent="@android:style/Theme.Dialog">
+        <!--<item name="android:windowFrame">@null</item>-->
+        <item name="android:windowTitleStyle">@style/ezimgur_dialog_title</item>
+        <item name="android:windowBackground">@color/Gainsboro</item>
+        <item name="android:windowIsFloating">true</item>
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!-- <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item> -->
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowActionModeOverlay">false</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:backgroundDimAmount">.6</item>
+        <!--<item name="android:windowIsTranslucent">false</item>-->
+        <!--<item name="android:colorBackgroundCacheHint">@null</item>-->
+        <item name="android:textColor">@color/Black</item>
+        <item name="android:textColorPrimary">@color/abs__primary_text_holo_dark</item>
+        <item name="android:textColorPrimaryInverse">@color/abs__primary_text_holo_light</item>
+        <item name="android:editTextStyle">@style/EditTextEzImgur</item>
+        <item name="android:buttonStyle">@style/ButtonEzImgur</item>
+
+        <!--  <item name="windowMinWidthMajor">@dimen/abs__dialog_min_width_major</item>
+       <item name="windowMinWidthMinor">@dimen/abs__dialog_min_width_minor</item>-->
+        <item name="windowActionBar">false</item>
+        <!--<item name="windowContentOverlay">@null</item>-->
+    </style>
+    <style name="Theme.ezimgur.TransparentDialog" parent="Theme.ezimgur.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/Transparent</item>
+    </style>
+
+    <style name="ezimgur_dialog_title">
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/Green</item>
+        <item name="android:textSize">25dip</item>
+        <item name="android:padding">10dip</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:background">@color/Gainsboro</item>
+    </style>
+
+    <style name="CustomTitlePageIndicator">
+        <item name="footerColor">@color/widget_accent</item>
+        <item name="footerLineHeight">4dp</item>
+        <item name="footerIndicatorHeight">2dp</item>
+
+        <item name="selectedBold">true</item>
+        <item name="android:textColor">@color/widget_accent</item>
+        <!--<item name="selectedColor">#FFFFFF</item>-->
+    </style>
+
+</resources>

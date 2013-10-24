@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+    <LinearLayout
+                  android:background="@color/Gainsboro"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+        <TextView
+                android:id="@+id/frag_msg_txt_status"
+                android:layout_margin="15dip"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+        <ListView
+                android:id="@+id/frag_msg_lv_messages"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"/>
+
+    </LinearLayout>
+    <ProgressBar
+            android:id="@+id/frag_msg_progress"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+</FrameLayout>

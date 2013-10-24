@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_margin="4dip"
+                android:padding="20dip"
+                android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/v_gi_tv_caption"
+        android:textSize="20dip"
+        android:padding="4dip"
+        android:layout_width="fill_parent"
+        android:autoLink="web"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/v_gi_tv_author"
+        android:textSize="16dip"
+        android:textColor="@color/Green"
+        android:layout_below="@id/v_gi_tv_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/v_gi_et_comment"
+        android:textColor="@color/Green"
+        android:layout_marginTop="10dip"
+        android:layout_below="@id/v_gi_tv_author"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/dlg_gi_comm_txtCommentHint"
+        android:maxLength="140"/>
+    <Button
+        android:id="@+id/v_gi_btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/v_gi_et_comment"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/space"
+        android:visibility="gone"
+        android:text="@string/dlg_comm_btnSubmitText" />
+    <CheckBox
+        android:id="@+id/v_gi_check_upvote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/v_gi_et_comment"
+        android:text="@string/dlg_gi_comm_chkUpVote"
+        android:visibility="gone"
+        android:checked="true"
+        android:textColor="@color/Black"
+        android:layout_toRightOf="@id/v_gi_btn_submit"/>
+</RelativeLayout>

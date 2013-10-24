@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:background="@color/Black"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:id="@+id/s_vi_item_details"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Black"
+        android:focusable="true"
+        >
+        <fragment
+            android:id="@+id/frag_item_details"
+            android:layout_height="85dip"
+            android:layout_width="wrap_content"
+            android:animateLayoutChanges="true"
+            class="com.ezimgur.view.fragment.ItemDetailsFragment"/>
+    </RelativeLayout>
+
+    <fragment
+        android:layout_below="@id/s_vi_item_details"
+        android:id="@+id/frag_image_viewer"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:animateLayoutChanges="true"
+        android:layout_toLeftOf="@+id/dw_captions_content"
+        class="com.ezimgur.view.fragment.ImageViewerFragment"/>
+    <FrameLayout
+        android:id="@+id/dw_captions_content"
+        android:layout_height="fill_parent"
+        android:layout_width="400dip"
+        android:layout_below="@id/s_vi_item_details"
+        android:background="#333333"
+        android:layout_alignParentRight="true"
+        android:animateLayoutChanges="true">
+        <ListView
+            android:id="@+id/lv_captions_list"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:listSelector="@drawable/selectable_background_ezimgur"/>
+        <Button android:id="@+id/btn_reload_captions"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Retry Load"
+                android:visibility="gone"
+                android:onClick="loadGalleryItemCommentsFromButton"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

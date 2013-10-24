@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:background="@color/Gainsboro"
+            android:layout_height="match_parent">
+
+<LinearLayout
+              android:orientation="vertical"
+
+              android:padding="15dip"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <TextView
+                android:text="Create New"
+                android:textSize="19dip"
+                android:textStyle="bold"
+                android:textColor="@color/widget_accent"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+        <ImageButton
+                android:id="@+id/frag_create_msg_ib_send"
+                android:layout_alignParentRight="true"
+                android:contentDescription="send message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_send"
+                android:background="@drawable/selectable_background_ezimgur"/>
+
+    </RelativeLayout>
+    <TextView
+            android:textColor="@color/widget_accent"
+            android:text="to:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <EditText
+            android:id="@+id/frag_create_msg_et_to"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+    <TextView
+        android:textColor="@color/widget_accent"
+        android:text="subject:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/frag_create_msg_et_subject"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+    <EditText
+        android:id="@+id/frag_create_msg_et_body"
+        android:gravity="top|left"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:imeOptions="actionSend"
+        android:lines="10"
+        android:inputType="textMultiLine"/>
+
+
+</LinearLayout>
+</ScrollView>
