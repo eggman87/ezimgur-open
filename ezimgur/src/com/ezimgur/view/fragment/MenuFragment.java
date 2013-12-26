@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.ezimgur.R;
 import com.ezimgur.app.EzApplication;
+import com.ezimgur.data.SettingsManager;
 import com.ezimgur.datacontract.Account;
 import com.ezimgur.view.activity.*;
 import com.ezimgur.view.adapter.MenuAdapter;
@@ -72,7 +73,7 @@ public class MenuFragment extends RoboSherlockFragment {
         final List<EzMenuItem> menuItems = new ArrayList<EzMenuItem>(6);
         Activity currentAct = getActivity();
 
-        menuItems.add(new EzMenuItem(1, "GALLERY", currentAct instanceof GalleryActivity, GalleryActivity.class));
+        menuItems.add(new EzMenuItem(1, "GALLERY", currentAct instanceof GalleryActivity || currentAct instanceof GalleryCompactActivity, GalleryActivity.class));
         menuItems.add(new EzMenuItem(2, "UPLOAD", currentAct instanceof UploadActivity, UploadActivity.class));
         menuItems.add(new EzMenuItem(3, "MY IMAGES", currentAct instanceof MyImagesActivity || currentAct instanceof AlbumImagesActivity || currentAct instanceof ViewItemActivity, MyImagesActivity.class));
         menuItems.add(new EzMenuItem(4, "COMMUNITY", currentAct instanceof CommunityActivity, CommunityActivity.class));
@@ -86,6 +87,17 @@ public class MenuFragment extends RoboSherlockFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 EzMenuItem menuItem = menuItems.get(i);
                 if (!menuItem.selected)
+                    if (menuItem.activityToLaunch == GalleryActivity.class) {
+                        SettingsManager manager = new SettingsManager(getActivity());
+                        boolean useOldLayout = manager.getValue(SettingsManager.SETTING_USE_OLD_LAYOUT, false);
+                        if (useOldLayout) {
+                            mEventManager.fire(new MenuSelectEvent(GalleryActivity.class));
+                        } else {
+                            mEventManager.fire(new MenuSelectEvent(GalleryCompactActivity.class));
+                        }
+                        return;
+                    }
+
                     mEventManager.fire(new MenuSelectEvent(menuItem.activityToLaunch));
             }
         });

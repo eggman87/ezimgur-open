@@ -48,6 +48,7 @@
 
     <string name="settings_below_image_details">force image to sit below details ribbon.</string>
     <string name="settings_full_screen_mode">full screen mode</string>
+    <string name="settings_use_old_layout">use old layout (requires manual restart)</string>
 
     <string name="community_info">
         Community is currently under construction. This area will eventually allow you to interact with fellow imgurians.

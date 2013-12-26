@@ -151,6 +151,7 @@ public class TouchImageView extends ImageView{
                 setImageMatrix(matrix);
                 invalidate();
                 return true; // indicate event was handled
+
             }
 
         });

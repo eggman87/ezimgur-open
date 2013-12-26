@@ -18,16 +18,19 @@
             android:hardwareAccelerated="true">
         <activity android:name=".view.activity.GalleryActivity"
                   android:label="@string/app_name"
-                  android:launchMode="singleTask">
-        </activity>
+                  android:launchMode="singleTask"/>
         <activity android:name=".view.activity.GalleryCompactActivity"
                   android:label="ezimgur"
-                  android:launchMode="singleTask">
+                  android:launchMode="singleTask"/>
+        <activity android:name=".view.activity.LaunchActivity"
+                  android:noHistory="true"
+                  android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity android:name=".view.activity.UploadActivity"
                   android:label="@string/activity_upload_label"/>
         <activity android:name=".view.activity.AboutActivity"

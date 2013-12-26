@@ -14,6 +14,7 @@ public class SettingsManager {
 
     public static final String SETTING_IMAGE_BELOW = "image_sits_below";
     public static final String SETTING_FULL_SCREEN_MODE = "fullscreen_mode";
+    public static final String SETTING_USE_OLD_LAYOUT = "use_old_layout";
 
     private SharedPreferences mPreferences;
 

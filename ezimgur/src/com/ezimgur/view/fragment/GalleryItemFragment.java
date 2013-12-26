@@ -91,9 +91,6 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         Bundle args = getArguments();
         target = args.getParcelable("item");
 
-        touchImageView.setId(target.hashCode());
-        touchWebView.setId(target.hashCode());
-
         transformGalleryItemToTarget();
         loadImage();
         attachListeners();
@@ -251,21 +248,21 @@ public class GalleryItemFragment extends RoboSherlockFragment {
     }
 
     private void saveImageToDisk() {
-        if (image == null) {
+        if (targetImage == null) {
             noImageMessage();
             return;
         }
 
-        if (image.animated){
+        if (targetImage.animated){
             Toast.makeText(getActivity(), "Can't save gifs currently, sorry", Toast.LENGTH_SHORT).show();
         } else {
             Bitmap imageToSave = ((BitmapDrawable)touchImageView.getDrawable()).getBitmap();
-            FileManager.saveImageToSd(getActivity(), imageToSave, image.id, imageApi.getExtensionForImage(image.toImage()), true);
+            FileManager.saveImageToSd(getActivity(), imageToSave, targetImage.id, imageApi.getExtensionForImage(targetImage), true);
         }
     }
 
     private void sendTextToClipboard(String textToSend){
-        if (image == null) {
+        if (targetImage == null) {
             noImageMessage();
             return;
         }
@@ -277,24 +274,24 @@ public class GalleryItemFragment extends RoboSherlockFragment {
     }
 
     public void shareCurrentImage() {
-        if (image == null) {
+        if (targetImage == null) {
             noImageMessage();
             return;
         }
 
-        if (image.animated) {
+        if (targetImage.animated) {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, image.title);
             shareIntent.putExtra(Intent.EXTRA_TITLE, image.title);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, imageApi.getHttpUrlForImage(image.toImage(), ImageSize.ACTUAL_SIZE));
+            shareIntent.putExtra(Intent.EXTRA_TEXT, imageApi.getHttpUrlForImage(targetImage, ImageSize.ACTUAL_SIZE));
             startActivity(shareIntent);
         } else {
             Intent share = new Intent(Intent.ACTION_SEND);
-            share.setType(image.mimeType);
+            share.setType(targetImage.mimeType);
 
             Bitmap imageToSave = ((BitmapDrawable)touchImageView.getDrawable()).getBitmap();
-            String path = FileManager.saveImageToSd(getActivity(), imageToSave, "ezimgur_last_shared", imageApi.getExtensionForImage(image.toImage()), false);
+            String path = FileManager.saveImageToSd(getActivity(), imageToSave, "ezimgur_last_shared", imageApi.getExtensionForImage(targetImage), false);
 
             share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + path));
             startActivity(Intent.createChooser(share, "Share Image"));
@@ -425,9 +422,9 @@ public class GalleryItemFragment extends RoboSherlockFragment {
 
             @Override
             public void onLongPress() {
-                if (image == null)
+                if (targetImage == null)
                     return;
-                if (!image.animated)
+                if (!targetImage.animated)
                     getActivity().openContextMenu(touchImageView);
             }
 

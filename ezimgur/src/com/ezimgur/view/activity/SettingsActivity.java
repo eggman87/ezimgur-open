@@ -17,6 +17,7 @@ public class SettingsActivity extends BaseActivity{
 
     @InjectView(R.id.sc_sett_ck_image_below) CheckBox mCheckImageBelow;
     @InjectView(R.id.sc_sett_ck_full_screen) CheckBox mCheckFullScreen;
+    @InjectView(R.id.sc_sett_ck_old_layout) CheckBox checkUseOldLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class SettingsActivity extends BaseActivity{
         final SettingsManager manager = new SettingsManager(this);
         mCheckImageBelow.setChecked(manager.getValue(SettingsManager.SETTING_IMAGE_BELOW, false));
         mCheckFullScreen.setChecked(manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, false));
+        checkUseOldLayout.setChecked(manager.getValue(SettingsManager.SETTING_USE_OLD_LAYOUT, false));
 
         mCheckImageBelow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -39,6 +41,13 @@ public class SettingsActivity extends BaseActivity{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 manager.saveValue(SettingsManager.SETTING_FULL_SCREEN_MODE, isChecked);
+            }
+        });
+
+        checkUseOldLayout.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                manager.saveValue(SettingsManager.SETTING_USE_OLD_LAYOUT, isChecked);
             }
         });
     }
