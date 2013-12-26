@@ -114,10 +114,12 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
         currentGallery = savedInstanceState.getString(BUNDLE_STATE_CURRENT_NAME);
         currentDays = savedInstanceState.getInt(BUNDLE_STATE_CURRENT_DAYS);
 
-        onCompositesReady();
-        getSupportActionBar().setTitle(currentGallery);
-        controller.loadCaptions(composites.get(currentPosition), currentPosition);
-        detailsFragment.setGalleryItem(composites.get(currentPosition).galleryItem);
+        if (composites != null && composites.size() > 0) {
+            onCompositesReady();
+            getSupportActionBar().setTitle(currentGallery);
+            controller.loadCaptions(composites.get(currentPosition), currentPosition);
+            detailsFragment.setGalleryItem(composites.get(currentPosition).galleryItem);
+        }
     }
 
 
