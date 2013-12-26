@@ -53,7 +53,7 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
 
     private String currentGallery;
     private List<GalleryItemComposite> composites;
-    private GallerySort currentSort;
+    private GallerySort currentSort = GallerySort.TOP;
     private int currentPosition;
     private int currentDays;
     private boolean isSearchGallery;
@@ -346,6 +346,7 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
     @Override
     public void changeGalleryClicked(String galleryName, boolean saveSubReddit, GallerySort sort, boolean makeDefault) {
         this.saveSubReddit = saveSubReddit;
+        currentSort = sort;
         controller.loadGallery(galleryName, 0, sort, true, makeDefault);
     }
 

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import com.ezimgur.data.SettingsManager;
+import com.ezimgur.view.utils.ViewUtils;
+
+import javax.swing.text.View;
 
 /**
  * Copyright NCR Inc,
@@ -18,7 +21,9 @@ public class LaunchActivity extends Activity{
 
         SettingsManager manager = new SettingsManager(this);
 
-        boolean useOldLayout =  manager.getValue(SettingsManager.SETTING_USE_OLD_LAYOUT, false);
+        boolean defaultUseOldLayout = ViewUtils.isTabletInLandscapeMode(this);
+
+        boolean useOldLayout =  manager.getValue(SettingsManager.SETTING_USE_OLD_LAYOUT, defaultUseOldLayout);
         if (useOldLayout) {
             Intent intent = new Intent(this, GalleryActivity.class);
             startActivity(intent);

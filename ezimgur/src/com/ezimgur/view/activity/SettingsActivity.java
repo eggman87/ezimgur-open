@@ -5,6 +5,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import com.ezimgur.R;
 import com.ezimgur.data.SettingsManager;
+import com.ezimgur.view.utils.ViewUtils;
 import roboguice.inject.InjectView;
 
 /**
@@ -25,10 +26,12 @@ public class SettingsActivity extends BaseActivity{
 
         setSupportProgressBarIndeterminateVisibility(false);
 
+        boolean defaultUseOldLayout = ViewUtils.isTabletInLandscapeMode(this);
+
         final SettingsManager manager = new SettingsManager(this);
         mCheckImageBelow.setChecked(manager.getValue(SettingsManager.SETTING_IMAGE_BELOW, false));
         mCheckFullScreen.setChecked(manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, false));
-        checkUseOldLayout.setChecked(manager.getValue(SettingsManager.SETTING_USE_OLD_LAYOUT, false));
+        checkUseOldLayout.setChecked(manager.getValue(SettingsManager.SETTING_USE_OLD_LAYOUT, defaultUseOldLayout));
 
         mCheckImageBelow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -13,6 +13,7 @@ import com.ezimgur.control.GalleryController;
 import com.ezimgur.control.IGalleryController;
 import com.ezimgur.instrumentation.Log;
 import com.google.inject.AbstractModule;
+import com.google.inject.internal.util.$FinalizableSoftReference;
 
 /**
  * EggmanProjects
