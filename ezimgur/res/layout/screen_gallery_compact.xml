@@ -5,6 +5,15 @@
               android:background="@color/Black"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/banana_for_scale"
+        android:src="@drawable/banana"
+        android:layout_alignParentTop="true"
+        android:layout_height="120dip"
+        android:layout_width="120dip"
+        android:minHeight="100dip"
+        android:minWidth="100dip"
+        android:visibility="gone"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/screen_gallery_compact_vp_images"
         android:layout_width="match_parent"
