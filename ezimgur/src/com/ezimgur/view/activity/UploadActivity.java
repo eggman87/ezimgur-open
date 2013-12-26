@@ -83,7 +83,8 @@ public class UploadActivity extends BaseActivity {
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK){
                     Log.d(TAG, "image taken: "+ mSelectedImageUri);
-                    FileManager.broadcastImagesUpdatedAlert(this);
+                    if (mSelectedImageUri != null)
+                        FileManager.broadcastImagesUpdatedAlert(this, mSelectedImageUri.toString());
                     mButtonUpload.setEnabled(true);
                     setUriToImageView(mSelectedImageUri);
                 }

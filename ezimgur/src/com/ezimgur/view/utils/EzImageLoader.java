@@ -1,14 +1,15 @@
 package com.ezimgur.view.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Environment;
+import com.ezimgur.R;
 import com.ezimgur.instrumentation.Log;
 import com.nostra13.universalimageloader.cache.disc.impl.TotalSizeLimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.download.URLConnectionImageDownloader;
 
 import java.io.File;
 
@@ -35,8 +36,10 @@ public class EzImageLoader {
         ImageLoader imageLoader = ImageLoader.getInstance();
 
         DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-                .cacheOnDisc()
-                //.showStubImage(R.drawable.empty)
+                .cacheOnDisc(true)
+                //.bitmapConfig(Bitmap.Config.RGB_565)
+                //.cacheInMemory(false)
+                .showImageOnLoading(R.drawable.progress_indeterminate_horizontal_holo_light)
                 //.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                 .build();
 
@@ -49,11 +52,10 @@ public class EzImageLoader {
         cacheDir.mkdirs();
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-                .threadPoolSize(6)
+                .threadPoolSize(5)
                 .threadPriority(Thread.NORM_PRIORITY - 1)
-                .discCache(new TotalSizeLimitedDiscCache(cacheDir,(6 * 1024 * 1024)))
+                .discCache(new TotalSizeLimitedDiscCache(cacheDir, (6 * 1024 * 1024)))
                 .discCacheFileNameGenerator(new HashCodeFileNameGenerator())
-                .imageDownloader(new URLConnectionImageDownloader(5 * 1000, 20 * 1000))
                 .defaultDisplayImageOptions(displayImageOptions)
                 .build();
         imageLoader.init(config);

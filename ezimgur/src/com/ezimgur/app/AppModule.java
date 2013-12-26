@@ -9,6 +9,8 @@ import com.ezimgur.api.impl.gallery.GalleryApiImpl;
 import com.ezimgur.api.impl.image.ImageApiImpl;
 import com.ezimgur.api.impl.message.MessageApiImpl;
 import com.ezimgur.api.impl.notification.NotificationApiImpl;
+import com.ezimgur.control.GalleryController;
+import com.ezimgur.control.IGalleryController;
 import com.ezimgur.instrumentation.Log;
 import com.google.inject.AbstractModule;
 
@@ -33,6 +35,8 @@ public class AppModule extends AbstractModule {
         bind(MessageApi.class).to(MessageApiImpl.class);
         bind(NotificationApi.class).to(NotificationApiImpl.class);
 
+
+        bind(IGalleryController.class).to(GalleryController.class).asEagerSingleton();
 
         Log.LOG_ENABLED = false;
         Log.type = Log.Type.ANDROID;

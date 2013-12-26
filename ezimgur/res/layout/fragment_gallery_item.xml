@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/fragment_gallery_item_container"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+        <com.ezimgur.view.component.TouchImageView
+            android:id="@+id/fragment_gallery_item_tiv"
+            android:background="#000000"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"/>
+        <com.ezimgur.view.component.TouchWebView
+            android:id="@+id/fragment_gallery_item_twv"
+            android:background="#000000"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    <ScrollView
+        android:id="@+id/frag_iv_album_caption_container"
+        android:layout_alignParentBottom="true"
+        android:foregroundGravity="bottom"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <TextView
+                android:id="@+id/frag_iv_tv_album_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/White"
+                android:padding="3dip"
+                android:background="@color/black_slight_transparent"/>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -176,23 +176,23 @@ public abstract class BaseActivity extends RoboSherlockFragmentActivity {
         if (sImageLoadingListener == null) {
             sImageLoadingListener = new ImageLoadingListener() {
                 @Override
-                public void onLoadingStarted() {
+                public void onLoadingStarted(String s, View view) {
                     manager.fire(new OnTaskLoadEvent(OnTaskLoadEvent.TaskLoading.LOAD_STARTED));
                 }
 
                 @Override
-                public void onLoadingFailed(FailReason failReason) {
+                public void onLoadingFailed(String s, View view, FailReason failReason) {
                     manager.fire(new OnTaskLoadEvent(OnTaskLoadEvent.TaskLoading.LOAD_FINISHED));
                 }
 
                 @Override
-                public void onLoadingComplete(Bitmap bitmap) {
+                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
                     manager.fire(new OnTaskLoadEvent(OnTaskLoadEvent.TaskLoading.LOAD_FINISHED));
                 }
 
                 @Override
-                public void onLoadingCancelled() {
-                    manager.fire(new OnTaskLoadEvent(OnTaskLoadEvent.TaskLoading.LOAD_CANCELED));
+                public void onLoadingCancelled(String s, View view) {
+                    manager.fire(new OnTaskLoadEvent(OnTaskLoadEvent.TaskLoading.LOAD_FINISHED));
                 }
             };
         }

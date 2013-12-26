@@ -1,5 +1,7 @@
 package com.ezimgur.datacontract;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -14,7 +16,7 @@ import java.util.List;
  * Use collections.sort to sort by points - at the time of writing this the API and imgur website returns
  * captions unsorted by points.
  */
-public class Comment extends NotificationContent implements Comparable<Comment>{
+public class Comment extends NotificationContent implements Parcelable, Comparable<Comment>{
 
     public String id;
     @SerializedName("image_id")
@@ -47,6 +49,58 @@ public class Comment extends NotificationContent implements Comparable<Comment>{
         else
             return 0;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(imageId);
+        dest.writeString(comment);
+        dest.writeString(author);
+        dest.writeInt(authorId);
+        dest.writeByte((byte) (onAlbum ? 1:0));
+        dest.writeString(albumCoverId);
+        dest.writeInt(ups);
+        dest.writeInt(downs);
+        dest.writeInt(points);
+        dest.writeLong(dateCreated.getTime());
+        dest.writeString(parentId);
+        dest.writeByte((byte) (deleted ? 1:0));
+        dest.writeString(vote);
+        dest.writeTypedList(children);
+    }
+
+    public static final Creator<Comment> CREATOR = new Creator<Comment>() {
+        @Override
+        public Comment createFromParcel(Parcel in) {
+            Comment comment = new Comment();
+            comment.id = in.readString();
+            comment.imageId = in.readString();
+            comment.comment = in.readString();
+            comment.author = in.readString();
+            comment.authorId = in.readInt();
+            comment.onAlbum = in.readByte() == 1;
+            comment.albumCoverId = in.readString();
+            comment.ups = in.readInt();
+            comment.downs = in.readInt();
+            comment.points = in.readInt();
+            comment.dateCreated = new Date(in.readLong());
+            comment.parentId = in.readString();
+            comment.deleted = in.readByte() == 1;
+            comment.vote = in.readString();
+            comment.children = in.readArrayList(Comment.class.getClassLoader());
+            return comment;
+        }
+
+        @Override
+        public Comment[] newArray(int size) {
+            return new Comment[size];
+        }
+    };
     /*
 
 id	string	The ID for the comment

@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
@@ -70,7 +72,8 @@ public class FileManager {
 
                           Toast.makeText(context, String.format("Image %ssaved in "+ storagePath.getName(), imageSaved ? "" : "NOT "), Toast.LENGTH_SHORT).show();
 
-                          context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"+ getPicturesFileDirectory(context))));
+                          if (Build.VERSION.SDK_INT < 19)
+                            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"+ getPicturesFileDirectory(context))));
                     }
 				} 
 			}catch(Exception ex) {
@@ -107,8 +110,15 @@ public class FileManager {
 
     }
 
-    public static void broadcastImagesUpdatedAlert(Context context) {
-        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"+ getPicturesFileDirectory(context))));
+    public static void broadcastImagesUpdatedAlert(Context context, String fileUri) {
+        MediaScannerConnection.scanFile(context,
+                new String[]{fileUri}, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.i("ExternalStorage", "Scanned " + path + ":");
+                        Log.i("ExternalStorage", "-> uri=" + uri);
+                    }
+                });
     }
 	
 	@SuppressLint("NewApi")

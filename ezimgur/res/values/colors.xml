@@ -146,5 +146,6 @@
     <color name="DarkBlue">#00008B</color>
     <color name="Navy">#000080</color>
     <color name="Transparent">#00000000</color>
+    <color name="GrayTransparent">#88666666</color>
     <color name="SemiTransparent">#52000000</color>
 </resources>

@@ -22,6 +22,7 @@ import com.ezimgur.instrumentation.Log;
 import com.ezimgur.task.LoadGalleryItemTask;
 import com.ezimgur.task.VoteOnImageTask;
 import com.ezimgur.view.activity.CommunityActivity;
+import com.ezimgur.view.event.AlbumTotalCountEvent;
 import com.ezimgur.view.event.OnSelectImageEvent;
 import com.ezimgur.view.event.UpVoteItemEvent;
 import com.ezimgur.view.utils.ViewUtils;
@@ -129,6 +130,7 @@ public class ItemDetailsFragment extends RoboSherlockFragment {
             public boolean onLongClick(View v) {
                 AlertDialog.Builder popupBuilder = new AlertDialog.Builder(getActivity());
                 TextView captionText =  new TextView(getActivity());
+                captionText.setTextSize(20);
                 captionText.setText(mItemDetails.title);
                 captionText.setGravity(Gravity.CENTER_HORIZONTAL);
                 popupBuilder.setView(captionText);
@@ -173,6 +175,10 @@ public class ItemDetailsFragment extends RoboSherlockFragment {
         if (event.isAlbumChange()) {
             setAlbumImageIndex(event.getPosition()+1);
         }
+    }
+
+    public void onAlbumTotalCountEvent(@Observes AlbumTotalCountEvent event) {
+        mTotalCount = event.totalCount;
     }
 
     public void onUpvoteItemEvent(@Observes UpVoteItemEvent event) {

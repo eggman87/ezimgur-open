@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@color/Black"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/screen_gallery_compact_vp_images"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"/>
+    <com.ezimgur.view.component.FixedSlidingDrawer
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:handle="@+id/screen_gallery_compact_dw_handle"
+        android:content="@+id/screen_gallery_compact_dw_content">
+
+        <RelativeLayout
+            android:id="@+id/screen_gallery_compact_dw_handle"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:background="@drawable/ab_solid_ezimgur"
+            android:layout_height="100dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/widget_accent"/>
+            <fragment
+                android:id="@+id/screen_gallery_compact_frag_item_details"
+                android:layout_height="100dp"
+                android:layout_width="wrap_content"
+                android:animateLayoutChanges="true"
+                class="com.ezimgur.view.fragment.ItemDetailsFragment"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/screen_gallery_compact_dw_content"
+            android:orientation="vertical"
+            android:background="@color/Black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ListView
+            android:id="@+id/screen_gallery_compact_lv_captions"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </com.ezimgur.view.component.FixedSlidingDrawer>
+
+</RelativeLayout>
