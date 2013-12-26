@@ -144,6 +144,7 @@ public class ItemDetailsFragment extends RoboSherlockFragment {
                 return true;
             }
         });
+
         mTextImageViews.setText(ViewUtils.commify(mItemDetails.views + ""));
         if (mItemDetails.dateCreated != null)
             mTextTimeAgo.setText(DateUtils.getRelativeTimeSpanString(mItemDetails.dateCreated.getTime(), System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS));
