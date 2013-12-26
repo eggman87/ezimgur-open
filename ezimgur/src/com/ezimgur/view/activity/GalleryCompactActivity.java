@@ -3,13 +3,11 @@ package com.ezimgur.view.activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.*;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.ezimgur.R;
@@ -25,10 +23,7 @@ import com.ezimgur.task.SearchGalleryTask;
 import com.ezimgur.view.adapter.CaptionAdapter;
 import com.ezimgur.view.adapter.ImagesViewPagerAdapter;
 import com.ezimgur.view.event.*;
-import com.ezimgur.view.fragment.DialogChangeDays;
-import com.ezimgur.view.fragment.DialogChangeGallery;
-import com.ezimgur.view.fragment.DialogGalleryItemDetail;
-import com.ezimgur.view.fragment.ItemDetailsFragment;
+import com.ezimgur.view.fragment.*;
 import roboguice.event.Observes;
 import roboguice.inject.InjectFragment;
 import roboguice.inject.InjectView;
@@ -256,9 +251,24 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
             if (event.targetPostition == viewPager.getCurrentItem()) {
                 GalleryItemComposite target = event.composite;
                 listCaptions.setAdapter(new CaptionAdapter(target.galleryItem.id, target.comments, getSupportFragmentManager()));
+                listCaptions.setOnItemLongClickListener(captionLongPressListener);
             }
         }
     }
+
+    AdapterView.OnItemLongClickListener captionLongPressListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            DialogCommentDetail dialog = DialogCommentDetail.newInstance(composites.get(currentPosition).galleryItem.id, composites.get(currentPosition).comments.get(position));
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.addToBackStack(null);
+
+            dialog.show(transaction, DialogCommentDetail.TAG);
+
+            return true;
+        }
+    };
 
     private void onCompositesReady() {
         //load first set of captions
@@ -351,7 +361,7 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
     }
 
     public void onDaysAgoSelectionChanged(@Observes ChangeDaysAgoEvent event) {
-        controller.loadGallery(currentGallery == null ? "hot":currentGallery, event.getDaysAgo(), currentSort, true, false);
+        controller.loadGallery(currentGallery == null ? "hot" : currentGallery, event.getDaysAgo(), currentSort, true, false);
     }
 
     public void onCommentSubmitted(@Observes CommentSubmittedEvent event) {
