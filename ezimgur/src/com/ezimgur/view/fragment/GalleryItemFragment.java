@@ -2,13 +2,10 @@ package com.ezimgur.view.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.*;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,29 +16,26 @@ import com.ezimgur.app.EzApplication;
 import com.ezimgur.data.AlbumsManager;
 import com.ezimgur.datacontract.*;
 import com.ezimgur.file.FileManager;
-import com.ezimgur.instrumentation.Log;
 import com.ezimgur.task.FavoriteItemTask;
 import com.ezimgur.task.LoadAlbumImagesTask;
 import com.ezimgur.view.activity.BaseActivity;
 import com.ezimgur.view.component.TouchImageView;
 import com.ezimgur.view.component.TouchWebView;
 import com.ezimgur.view.event.AlbumTotalCountEvent;
-import com.ezimgur.view.event.ImageViewerFlingEvent;
-import com.ezimgur.view.event.OnSelectImageEvent;
+import com.ezimgur.view.event.PageShowEvent;
 import com.ezimgur.view.listener.SwipeGestureDetector;
 import com.ezimgur.view.utils.EzImageLoader;
 import com.ezimgur.view.utils.ViewUtils;
 import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragment;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import roboguice.RoboGuice;
 import roboguice.event.EventManager;
+import roboguice.event.Observes;
 import roboguice.inject.InjectView;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Copyright NCR Inc,
@@ -102,8 +96,6 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         if (isAlbum) {
             isAlbum = true;
             album = (GalleryAlbum) target.galleryItem;
-            eventManager.fire(new AlbumTotalCountEvent(album.imageCount));
-
         } else {
             isAlbum = false;
             image  = (GalleryImage) target.galleryItem;
@@ -119,12 +111,8 @@ public class GalleryItemFragment extends RoboSherlockFragment {
                     super.onSuccess(images);
                     album.images = new ArrayList<Image>();
                     album.images.addAll(images);
-//                    if (!mLastAlbumId.equals(mTargetAlbum.id)){
-//                        mAlbumImageIndex = 0;
-//                        mLastAlbumId = mTargetAlbum.id;
-//                    }
 
-                    eventManager.fire(new AlbumTotalCountEvent(album.images.size()));
+                    eventManager.fire(new AlbumTotalCountEvent(album.id, albumIndex, album.images.size()));
                     targetImage = album.images.get(albumIndex);
                     loadImageAndSetViewState(targetImage);
                 }
@@ -376,6 +364,10 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         }
     }
 
+    public void onShow(@Observes PageShowEvent event) {
+        if (album != null && album.images != null && event.id.equals(album.id))
+            eventManager.fire(new AlbumTotalCountEvent(album.id, albumIndex, album.images.size()));
+    }
 
     private SwipeGestureDetector.GestureListener getImageViewListener() {
         return new SwipeGestureDetector.GestureListener() {
@@ -385,10 +377,7 @@ public class GalleryItemFragment extends RoboSherlockFragment {
 
                 if (isAlbum && touchImageView.saveScale < 1.1f && albumIndex < album.images.size() -1) {
                     albumIndex++;
-
                     loadImage();
-
-                    eventManager.fire(new OnSelectImageEvent(albumIndex, true));
                     return true;
                 }
                 return false;
@@ -400,10 +389,7 @@ public class GalleryItemFragment extends RoboSherlockFragment {
                 if (touchImageView.saveScale < 1.1f && isAlbum) {
                     if (albumIndex >0) {
                         albumIndex--;
-
                         loadImage();
-
-                        eventManager.fire(new OnSelectImageEvent(albumIndex, true));
                         return true;
                     }
                 }

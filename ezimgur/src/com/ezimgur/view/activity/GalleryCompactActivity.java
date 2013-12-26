@@ -288,8 +288,10 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
             @Override
             public void onPageSelected(int position) {
                 currentPosition = position;
-                controller.loadCaptions(composites.get(position), position);
-                detailsFragment.setGalleryItem(composites.get(position).galleryItem);
+                GalleryItemComposite composite = composites.get(position);
+                controller.loadCaptions(composite, position);
+                detailsFragment.setGalleryItem(composite.galleryItem);
+                eventManager.fire(new PageShowEvent(position, composite.galleryItem.id));
             }
 
             @Override

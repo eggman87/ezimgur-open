@@ -9,8 +9,12 @@ package com.ezimgur.view.event;
 public class AlbumTotalCountEvent {
 
     public int totalCount;
+    public int currentIndex;
+    public String albumId;
 
-    public AlbumTotalCountEvent(int count) {
+    public AlbumTotalCountEvent(String albumId, int currentIndex, int count) {
+        this.albumId = albumId;
+        this.currentIndex = currentIndex;
         this.totalCount = count;
     }
 }

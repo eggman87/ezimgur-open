@@ -65,6 +65,12 @@ public class ItemDetailsFragment extends RoboSherlockFragment {
     private static final String TAG = "EzImgur.ItemDetailsFragment";
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_item_details, container, false);
     }
@@ -177,8 +183,12 @@ public class ItemDetailsFragment extends RoboSherlockFragment {
         }
     }
 
+
     public void onAlbumTotalCountEvent(@Observes AlbumTotalCountEvent event) {
-        mTotalCount = event.totalCount;
+        if (mGalleryItem.id.equals(event.albumId)) {
+            mTotalCount = event.totalCount;
+            setAlbumImageIndex(event.currentIndex + 1);
+        }
     }
 
     public void onUpvoteItemEvent(@Observes UpVoteItemEvent event) {
