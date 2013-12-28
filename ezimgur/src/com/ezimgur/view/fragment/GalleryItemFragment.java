@@ -3,6 +3,7 @@ package com.ezimgur.view.fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.*;
@@ -90,6 +91,22 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         attachListeners();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (touchImageView != null) {
+            Drawable drawable = touchImageView.getDrawable();
+            if (drawable instanceof BitmapDrawable) {
+                BitmapDrawable bitDrawable = (BitmapDrawable) drawable;
+                Bitmap bitmap = bitDrawable.getBitmap();
+                bitmap.recycle();
+            }
+        }
+
+
+    }
+
     private void transformGalleryItemToTarget(){
 
         isAlbum = target.galleryItem instanceof GalleryAlbum;
@@ -144,8 +161,12 @@ public class GalleryItemFragment extends RoboSherlockFragment {
             touchImageView.setVisibility(View.VISIBLE);
             touchWebView.setVisibility(View.GONE);
 
-            ImageLoader imageLoader = EzImageLoader.getImageLoaderInstance(getActivity());
-            imageLoader.displayImage(imageUrl, touchImageView, BaseActivity.getDefaultImageLoadingListener(eventManager));
+            try {
+                ImageLoader imageLoader = EzImageLoader.getImageLoaderInstance(getActivity());
+                imageLoader.displayImage(imageUrl, touchImageView, BaseActivity.getDefaultImageLoadingListener(eventManager));
+            } catch (OutOfMemoryError error) {
+                Toast.makeText(getActivity(), "not enough memory to keep showing images...", Toast.LENGTH_LONG).show();
+            }
         }
 
 

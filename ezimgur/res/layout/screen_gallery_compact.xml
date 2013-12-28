@@ -14,12 +14,20 @@
         android:minHeight="100dip"
         android:minWidth="100dip"
         android:visibility="gone"/>
+    <Gallery
+        android:id="@+id/main_vp_thumbnails"
+        android:layout_width="fill_parent"
+        android:layout_height="80dip"
+        android:spacing="0dip"
+        android:background="#000000"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/screen_gallery_compact_vp_images"
+        android:layout_below="@id/main_vp_thumbnails"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="100dp"/>
     <com.ezimgur.view.component.FixedSlidingDrawer
+        android:id="@+id/screen_gallery_compact_dw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"

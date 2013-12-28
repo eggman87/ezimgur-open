@@ -568,7 +568,7 @@ public class GalleryActivity extends BaseActivity implements DialogChangeGallery
 
         SettingsManager manager = new SettingsManager(this);
 
-        mFullScreenMode = manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, false);
+        mFullScreenMode = manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, true);
         boolean sitBelow = manager.getValue(SettingsManager.SETTING_IMAGE_BELOW, false);
 
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mFragmentImageViewer.getView().getLayoutParams();

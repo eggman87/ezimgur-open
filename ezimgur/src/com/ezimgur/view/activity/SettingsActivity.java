@@ -30,7 +30,7 @@ public class SettingsActivity extends BaseActivity{
 
         final SettingsManager manager = new SettingsManager(this);
         mCheckImageBelow.setChecked(manager.getValue(SettingsManager.SETTING_IMAGE_BELOW, false));
-        mCheckFullScreen.setChecked(manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, false));
+        mCheckFullScreen.setChecked(manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, true));
         checkUseOldLayout.setChecked(manager.getValue(SettingsManager.SETTING_USE_OLD_LAYOUT, defaultUseOldLayout));
 
         mCheckImageBelow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

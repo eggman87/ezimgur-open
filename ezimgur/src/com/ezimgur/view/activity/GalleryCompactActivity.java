@@ -11,8 +11,10 @@ import android.widget.*;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.ezimgur.R;
+import com.ezimgur.api.ImageApi;
 import com.ezimgur.control.IGalleryController;
 import com.ezimgur.data.GalleryManager;
+import com.ezimgur.data.SettingsManager;
 import com.ezimgur.datacontract.GalleryItem;
 import com.ezimgur.datacontract.GalleryItemComposite;
 import com.ezimgur.datacontract.GallerySort;
@@ -21,7 +23,10 @@ import com.ezimgur.persistance.datasource.GalleryDataSource;
 import com.ezimgur.task.InitApplicationTask;
 import com.ezimgur.task.SearchGalleryTask;
 import com.ezimgur.view.adapter.CaptionAdapter;
+import com.ezimgur.view.adapter.CompositeThumbnailAdapter;
 import com.ezimgur.view.adapter.ImagesViewPagerAdapter;
+import com.ezimgur.view.adapter.ThumbnailsAdapter;
+import com.ezimgur.view.component.FixedSlidingDrawer;
 import com.ezimgur.view.event.*;
 import com.ezimgur.view.fragment.*;
 import roboguice.event.Observes;
@@ -41,9 +46,12 @@ import java.util.List;
 public class GalleryCompactActivity extends BaseActivity implements DialogChangeGallery.OnChangeGalleryListener {
 
     @Inject IGalleryController controller;
+    @Inject ImageApi imageApi;
+    @InjectView(R.id.main_vp_thumbnails)Gallery thumsGallery;
     @InjectView(R.id.screen_gallery_compact_vp_images) ViewPager viewPager;
     @InjectView(R.id.screen_gallery_compact_lv_captions) ListView listCaptions;
     @InjectView(R.id.banana_for_scale)ImageView imgBananaForScale;
+    @InjectView(R.id.screen_gallery_compact_dw)FixedSlidingDrawer imageDrawer;
     @InjectFragment(R.id.screen_gallery_compact_frag_item_details)ItemDetailsFragment detailsFragment;
 
     private String currentGallery;
@@ -60,6 +68,15 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
     private static final String BUNDLE_STATE_CURRENT_INDEX = "bundle_state_selection";
     private static final String BUNDLE_STATE_CURRENT_NAME = "bundle_state_name";
     private static final String TAG = "EzImgur.GalleryCompactActivity";
+
+    @Override
+    public void onBackPressed() {
+        if (imageDrawer.isOpened()) {
+            imageDrawer.animateClose();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -277,6 +294,13 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
         controller.loadCaptions(composites.get(0), 0);
         detailsFragment.setGalleryItem(composites.get(0).galleryItem);
 
+        SettingsManager manager = new SettingsManager(this);
+        boolean fullScreenMode = manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, true);
+        if (!fullScreenMode)
+            thumsGallery.setVisibility(View.VISIBLE);
+        else
+            thumsGallery.setVisibility(View.GONE);
+
         final ImagesViewPagerAdapter adapter = new ImagesViewPagerAdapter(getSupportFragmentManager(), composites);
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -292,6 +316,7 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
                 controller.loadCaptions(composite, position);
                 detailsFragment.setGalleryItem(composite.galleryItem);
                 eventManager.fire(new PageShowEvent(position, composite.galleryItem.id));
+                thumsGallery.setSelection(position);
             }
 
             @Override
@@ -299,7 +324,13 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
 
             }
         });
-
+        thumsGallery.setAdapter(new CompositeThumbnailAdapter(this, composites, eventManager, imageApi));
+        thumsGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                viewPager.setCurrentItem(position);
+            }
+        });
     }
 
     private void openItemDetailFragment() {
