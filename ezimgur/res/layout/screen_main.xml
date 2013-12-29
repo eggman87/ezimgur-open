@@ -10,7 +10,7 @@
         <Gallery
                 android:id="@+id/main_vp_thumbnails"
                 android:layout_width="fill_parent"
-                android:layout_height="80dip"
+                android:layout_height="60dp"
                 android:spacing="0dip"
                 android:background="#000000"/>
         <fragment

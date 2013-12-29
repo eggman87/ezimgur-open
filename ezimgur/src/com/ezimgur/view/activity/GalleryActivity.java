@@ -568,7 +568,7 @@ public class GalleryActivity extends BaseActivity implements DialogChangeGallery
 
         SettingsManager manager = new SettingsManager(this);
 
-        mFullScreenMode = manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, true);
+        mFullScreenMode = manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, false);
         boolean sitBelow = manager.getValue(SettingsManager.SETTING_IMAGE_BELOW, false);
 
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mFragmentImageViewer.getView().getLayoutParams();
@@ -582,7 +582,7 @@ public class GalleryActivity extends BaseActivity implements DialogChangeGallery
                 lp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         } else {
             Resources r = getResources();
-            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, r.getDisplayMetrics());
+            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mIsTabletInLandscape ? 80:60, r.getDisplayMetrics());
 
             ViewGroup.LayoutParams params = mThumbsPager.getLayoutParams();
             params.height = (int) px;

@@ -23,12 +23,10 @@
     <ScrollView
         android:id="@+id/frag_iv_album_caption_container"
         android:layout_alignParentBottom="true"
-        android:foregroundGravity="bottom"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
         <LinearLayout
             android:orientation="vertical"
-            android:gravity="bottom"
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
             <TextView

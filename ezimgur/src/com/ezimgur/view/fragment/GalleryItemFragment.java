@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ezimgur.R;
@@ -54,6 +55,7 @@ public class GalleryItemFragment extends RoboSherlockFragment {
     @InjectView(R.id.fragment_gallery_item_tiv) TouchImageView touchImageView;
     @InjectView(R.id.fragment_gallery_item_twv) TouchWebView touchWebView;
     @InjectView(R.id.frag_iv_tv_album_caption) TextView albumCaption;
+    @InjectView(R.id.frag_iv_album_caption_container)ScrollView albumCaptionScrollContainer;
 
     private GalleryItemComposite target;
     private boolean isAlbum;
@@ -131,6 +133,7 @@ public class GalleryItemFragment extends RoboSherlockFragment {
 
                     eventManager.fire(new AlbumTotalCountEvent(album.id, albumIndex, album.images.size()));
                     targetImage = album.images.get(albumIndex);
+
                     loadImageAndSetViewState(targetImage);
                 }
             }.execute();
@@ -176,9 +179,13 @@ public class GalleryItemFragment extends RoboSherlockFragment {
             albumCaption.setText(image.title + "\n" + desc);
             albumCaption.setVisibility(View.VISIBLE);
 
+            attachTextAttachmentListener();
+
         } else if (image.description != null && image.description.length() > 0){
             albumCaption.setText(image.description);
             albumCaption.setVisibility(View.VISIBLE);
+
+            attachTextAttachmentListener();
 
         } else {
             albumCaption.setVisibility(View.GONE);
@@ -187,12 +194,14 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         touchWebView.setContextMenuTitle(image.title);
         touchImageView.setContextMenuTitle(image.title);
 
+
         setupContextMenuProvider();
     }
 
     private void attachListeners() {
         touchImageView.setOnFlingListener(getImageViewListener());
         touchWebView.setOnFlingListener(getImageViewListener());
+        attachTextAttachmentListener();
     }
 
     @Override
@@ -291,8 +300,8 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         if (targetImage.animated) {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, image.title);
-            shareIntent.putExtra(Intent.EXTRA_TITLE, image.title);
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, targetImage.title);
+            shareIntent.putExtra(Intent.EXTRA_TITLE, targetImage.title);
             shareIntent.putExtra(Intent.EXTRA_TEXT, imageApi.getHttpUrlForImage(targetImage, ImageSize.ACTUAL_SIZE));
             startActivity(shareIntent);
         } else {
@@ -388,6 +397,35 @@ public class GalleryItemFragment extends RoboSherlockFragment {
     public void onShow(@Observes PageShowEvent event) {
         if (album != null && album.images != null && event.id.equals(album.id))
             eventManager.fire(new AlbumTotalCountEvent(album.id, albumIndex, album.images.size()));
+    }
+
+    /*
+    Used to adjust the scrolling container size based on the measured height of the text view. We can not get the
+    actual height of tv until it is added to view tree.
+ */
+    private void attachTextAttachmentListener(){
+        ViewTreeObserver vto = albumCaption.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                adjustAlbumCaptionContainerSize();
+                albumCaption.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
+    }
+
+    private void adjustAlbumCaptionContainerSize() {
+        ViewGroup.LayoutParams lp = albumCaptionScrollContainer.getLayoutParams();
+        int targetHeight = albumCaption.getHeight();
+
+        if (targetHeight > 200)
+            lp.height = 200;
+        else
+            lp.height = targetHeight;
+
+        albumCaptionScrollContainer.setLayoutParams(lp);
+        albumCaptionScrollContainer.invalidate();
+
     }
 
     private SwipeGestureDetector.GestureListener getImageViewListener() {

@@ -131,11 +131,14 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
         currentGallery = savedInstanceState.getString(BUNDLE_STATE_CURRENT_NAME);
         currentDays = savedInstanceState.getInt(BUNDLE_STATE_CURRENT_DAYS);
 
+
         if (composites != null && composites.size() > 0) {
             onCompositesReady();
+            thumsGallery.setSelection(currentPosition);
             getSupportActionBar().setTitle(currentGallery);
             controller.loadCaptions(composites.get(currentPosition), currentPosition);
             detailsFragment.setGalleryItem(composites.get(currentPosition).galleryItem);
+
         }
     }
 
@@ -295,7 +298,7 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
         detailsFragment.setGalleryItem(composites.get(0).galleryItem);
 
         SettingsManager manager = new SettingsManager(this);
-        boolean fullScreenMode = manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, true);
+        boolean fullScreenMode = manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, false);
         if (!fullScreenMode)
             thumsGallery.setVisibility(View.VISIBLE);
         else

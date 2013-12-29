@@ -17,12 +17,18 @@
     <Gallery
         android:id="@+id/main_vp_thumbnails"
         android:layout_width="fill_parent"
-        android:layout_height="80dip"
+        android:layout_height="60dp"
         android:spacing="0dip"
         android:background="#000000"/>
+    <View
+        android:id="@+id/screen_gallery_compact_v_divider"
+        android:layout_width="match_parent"
+        android:layout_height=".5dp"
+        android:layout_below="@id/main_vp_thumbnails"
+        android:background="@color/ezimgur_red"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/screen_gallery_compact_vp_images"
-        android:layout_below="@id/main_vp_thumbnails"
+        android:layout_below="@id/screen_gallery_compact_v_divider"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="100dp"/>

@@ -46,8 +46,8 @@
     <string name="upload_label_imagecaption">description</string>
     <string name="upload_check_submit_gallery">submit to gallery</string>
 
-    <string name="settings_below_image_details">force image to sit below details ribbon.</string>
-    <string name="settings_full_screen_mode">full screen mode</string>
+    <string name="settings_below_image_details">force image to sit below details ribbon (old layout)</string>
+    <string name="settings_full_screen_mode">hide thumbnails (requires manual restart)</string>
     <string name="settings_use_old_layout">use old layout (requires manual restart)</string>
 
     <string name="community_info">

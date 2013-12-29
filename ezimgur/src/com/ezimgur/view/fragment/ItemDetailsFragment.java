@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.ezimgur.R;
 import com.ezimgur.app.EzApplication;
+import com.ezimgur.data.SettingsManager;
 import com.ezimgur.datacontract.Album;
 import com.ezimgur.datacontract.GalleryItem;
 import com.ezimgur.datacontract.Image;
@@ -53,6 +54,7 @@ public class ItemDetailsFragment extends RoboSherlockFragment {
     @InjectView(R.id.tv_album_index_indicator)TextView mTextAlbumIndex;
     @InjectView(R.id.img_upvotes) ImageView mTextUpVoteImage;
     @InjectView(R.id.img_downvotes) ImageView mTextDownVoteImage;
+    @InjectView(R.id.caption_handle) ImageView mCaptionHandle;
 
     private GalleryItemLoadedListener mItemLoadedListener;
     private ItemDetails mItemDetails;
@@ -78,6 +80,11 @@ public class ItemDetailsFragment extends RoboSherlockFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        SettingsManager manager = new SettingsManager(getActivity());
+        boolean oldLayout = manager.getValue(SettingsManager.SETTING_USE_OLD_LAYOUT, ViewUtils.isTabletInLandscapeMode(getActivity()));
+        if (oldLayout)
+            mCaptionHandle.setVisibility(View.GONE);
     }
 
     public void setCurrentImage(Image image) {
