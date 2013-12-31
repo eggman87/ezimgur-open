@@ -16,23 +16,28 @@ import com.ezimgur.api.AlbumApi;
 import com.ezimgur.api.ImageApi;
 import com.ezimgur.app.EzApplication;
 import com.ezimgur.data.AlbumsManager;
+import com.ezimgur.data.SettingsManager;
 import com.ezimgur.datacontract.*;
 import com.ezimgur.file.FileManager;
 import com.ezimgur.task.FavoriteItemTask;
+import com.ezimgur.task.GetFileBytesTask;
 import com.ezimgur.task.LoadAlbumImagesTask;
 import com.ezimgur.view.activity.BaseActivity;
+import com.ezimgur.view.component.GifDecoderView;
 import com.ezimgur.view.component.TouchImageView;
 import com.ezimgur.view.component.TouchWebView;
 import com.ezimgur.view.event.AlbumTotalCountEvent;
 import com.ezimgur.view.event.PageShowEvent;
 import com.ezimgur.view.listener.SwipeGestureDetector;
 import com.ezimgur.view.utils.EzImageLoader;
+import com.ezimgur.view.utils.GifDecoder;
 import com.ezimgur.view.utils.ViewUtils;
 import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragment;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import roboguice.event.EventManager;
 import roboguice.event.Observes;
 import roboguice.inject.InjectView;
+import sun.net.www.content.image.gif;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -54,6 +59,7 @@ public class GalleryItemFragment extends RoboSherlockFragment {
     @InjectView(R.id.fragment_gallery_item_container) RelativeLayout container;
     @InjectView(R.id.fragment_gallery_item_tiv) TouchImageView touchImageView;
     @InjectView(R.id.fragment_gallery_item_twv) TouchWebView touchWebView;
+    @InjectView(R.id.fragment_gallery_item_gif_view) GifDecoderView gifDecoderView;
     @InjectView(R.id.frag_iv_tv_album_caption) TextView albumCaption;
     @InjectView(R.id.frag_iv_album_caption_container)ScrollView albumCaptionScrollContainer;
 
@@ -76,6 +82,22 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         return fragment;
     }
 
+    private boolean seenOnce;
+    private boolean needsToAnimate;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser) {
+            seenOnce = isVisibleToUser;
+            if (needsToAnimate)  {
+                gifDecoderView.startAnimation();
+                needsToAnimate = false;
+            }
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_gallery_item, container, false);
@@ -91,6 +113,13 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         transformGalleryItemToTarget();
         loadImage();
         attachListeners();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        gifDecoderView.stopAnimation();
     }
 
     @Override
@@ -149,20 +178,46 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         if (ext.equalsIgnoreCase("gif"))
             image.animated = true;
 
-        if (image.animated ) {
-            touchWebView.setVisibility(View.VISIBLE);
-            touchImageView.setVisibility(View.GONE);
+        SettingsManager settingsManager = new SettingsManager(getActivity());
+        boolean useWebViewForGifs = settingsManager.getValue(SettingsManager.SETTING_USE_WEB_GIF_VIEWER, false);
 
-            touchWebView.clearCache(true);
-            touchWebView.bringToFront();
-            touchWebView.loadDataWithBaseURL(null,
-                    String.format(ViewUtils.htmlImageFormat, ViewUtils.javascript, imageUrl),
-                    "text/html",
-                    "utf-8",
-                    null);
+        if (image.animated ) {
+
+            touchImageView.setVisibility(View.GONE);
+            if (useWebViewForGifs) {
+                touchWebView.setVisibility(View.VISIBLE);
+                touchWebView.clearCache(true);
+                touchWebView.bringToFront();
+                touchWebView.loadDataWithBaseURL(null,
+                        String.format(ViewUtils.htmlImageFormat, ViewUtils.javascript, imageUrl),
+                        "text/html",
+                        "utf-8",
+                        null);
+            } else {
+                gifDecoderView.setVisibility(View.VISIBLE);
+                gifDecoderView.stopAnimation();
+
+                new GetFileBytesTask(getActivity(), imageUrl) {
+
+                    @Override
+                    protected void onSuccess(GifDecoder gifDecoder) throws Exception {
+                        super.onSuccess(gifDecoder);
+                        gifDecoderView.setGifDecoder(gifDecoder);
+                        //gifDecoderView.setBytes(gifData.data);
+                        if (seenOnce)
+                            gifDecoderView.startAnimation();
+                        else
+                            needsToAnimate = true;
+                    }
+
+                }.execute();
+            }
         } else {
             touchImageView.setVisibility(View.VISIBLE);
-            touchWebView.setVisibility(View.GONE);
+            if (useWebViewForGifs)
+                touchWebView.setVisibility(View.GONE);
+            else
+                gifDecoderView.setVisibility(View.GONE);
 
             try {
                 ImageLoader imageLoader = EzImageLoader.getImageLoaderInstance(getActivity());
@@ -191,8 +246,13 @@ public class GalleryItemFragment extends RoboSherlockFragment {
             albumCaption.setVisibility(View.GONE);
         }
 
-        touchWebView.setContextMenuTitle(image.title);
+        if (useWebViewForGifs)
+            touchWebView.setContextMenuTitle(image.title);
+        else
+            gifDecoderView.setContextMenuTitle(image.title);
+
         touchImageView.setContextMenuTitle(image.title);
+
 
 
         setupContextMenuProvider();
@@ -201,6 +261,7 @@ public class GalleryItemFragment extends RoboSherlockFragment {
     private void attachListeners() {
         touchImageView.setOnFlingListener(getImageViewListener());
         touchWebView.setOnFlingListener(getImageViewListener());
+        gifDecoderView.setOnFlingListener(getImageViewListener());
         attachTextAttachmentListener();
     }
 
@@ -375,6 +436,7 @@ public class GalleryItemFragment extends RoboSherlockFragment {
 
         touchImageView.setContextMenuProvider(provider);
         touchWebView.setmContextMenuProvider(provider);
+        gifDecoderView.setContextMenuProvider(provider);
     }
 
     private List<String> addDynamicItemsToContextMenuList(List<String> menuList) {
@@ -467,10 +529,17 @@ public class GalleryItemFragment extends RoboSherlockFragment {
 
             @Override
             public void onLongPress() {
+
                 if (targetImage == null)
                     return;
                 if (!targetImage.animated)
                     getActivity().openContextMenu(touchImageView);
+                else {
+                    SettingsManager settingsManager = new SettingsManager(getActivity());
+                    boolean useWebViewForGifs = settingsManager.getValue(SettingsManager.SETTING_USE_WEB_GIF_VIEWER, false);
+                    if (!useWebViewForGifs)
+                        getActivity().openContextMenu(gifDecoderView);
+                }
             }
 
             @Override

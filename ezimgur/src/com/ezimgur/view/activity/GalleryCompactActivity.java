@@ -395,11 +395,11 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
     public void changeGalleryClicked(String galleryName, boolean saveSubReddit, GallerySort sort, boolean makeDefault) {
         this.saveSubReddit = saveSubReddit;
         currentSort = sort;
-        controller.loadGallery(galleryName, 0, sort, true, makeDefault);
+        controller.loadGallery(galleryName, 0, sort, true, makeDefault, saveSubReddit);
     }
 
     public void onDaysAgoSelectionChanged(@Observes ChangeDaysAgoEvent event) {
-        controller.loadGallery(currentGallery == null ? "hot" : currentGallery, event.getDaysAgo(), currentSort, true, false);
+        controller.loadGallery(currentGallery == null ? "hot" : currentGallery, event.getDaysAgo(), currentSort, true, false, false);
     }
 
     public void onCommentSubmitted(@Observes CommentSubmittedEvent event) {

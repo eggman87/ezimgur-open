@@ -240,6 +240,8 @@ public class TouchImageView extends ImageView{
     @Override
     public void setImageBitmap(Bitmap bm) {
         super.setImageBitmap(bm);
+        if (bm == null)
+            return;
         bmWidth = bm.getWidth();
         bmHeight = bm.getHeight();
         centerImage();

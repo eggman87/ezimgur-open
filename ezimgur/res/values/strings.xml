@@ -118,6 +118,7 @@
 
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="settings_web_gifs">use webview for gifs (old way, requires manaual restart, setting only applies to new layout) </string>
 
     <string-array name="sorts_array">
         <item>hot</item>

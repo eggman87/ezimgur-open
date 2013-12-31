@@ -21,7 +21,7 @@ public interface IGalleryController {
 
     void loadGallery(final String galleryName,final int pageNumber, GallerySort sort);
 
-    void loadGallery(final String galleryName,final int pageNumber, GallerySort sort, boolean overrideSort, final boolean makeDefault);
+    void loadGallery(final String galleryName,final int pageNumber, GallerySort sort, boolean overrideSort, final boolean makeDefault, final boolean saveSubreddit);
 
     void loadCaptions(final GalleryItemComposite item, int targetPosition);
 }

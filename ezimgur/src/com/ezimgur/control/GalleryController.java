@@ -33,7 +33,6 @@ public class GalleryController implements IGalleryController {
     private GallerySort currentSort;
     private boolean isSearchGallery;
     private Gallery currentGallery;
-    private boolean saveSubReddit;
 
     private Context context;
     private static final String TAG = "EzImgur.GalleryController";
@@ -55,10 +54,10 @@ public class GalleryController implements IGalleryController {
     }
 
     public void loadGallery(final String galleryName,final int pageNumber, GallerySort sort) {
-        loadGallery(galleryName, pageNumber, sort, false, false);
+        loadGallery(galleryName, pageNumber, sort, false, false, false);
     }
 
-    public void loadGallery(final String galleryName,final int pageNumber, GallerySort sort, boolean overrideSort, final boolean makeDefault) {
+    public void loadGallery(final String galleryName,final int pageNumber, GallerySort sort, boolean overrideSort, final boolean makeDefault, final boolean saveSubReddit) {
         Log.d(TAG, String.format("loading %s at page %s with sort %s", galleryName, pageNumber, sort));
 
         //hack for showing new on subreddits.
@@ -90,7 +89,6 @@ public class GalleryController implements IGalleryController {
                 if (saveSubReddit && currentGallery.imageList!= null && currentGallery.imageList.size() > 0) {
                     GalleryDataSource dataSource = GalleryDataSource.newInstance(getContext());
                     dataSource.createSavedGallery(galleryName);
-                    saveSubReddit = false;
                 }
 
                 if (makeDefault){

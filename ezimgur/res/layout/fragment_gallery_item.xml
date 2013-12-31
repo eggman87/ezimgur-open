@@ -19,6 +19,11 @@
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+        <com.ezimgur.view.component.GifDecoderView
+            android:id="@+id/fragment_gallery_item_gif_view"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     <ScrollView
         android:id="@+id/frag_iv_album_caption_container"
