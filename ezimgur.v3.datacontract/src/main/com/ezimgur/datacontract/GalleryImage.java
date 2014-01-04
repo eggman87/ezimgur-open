@@ -37,6 +37,16 @@ public class GalleryImage extends GalleryItem  implements Parcelable{
     }
 
     public GalleryImage (Parcel in){
+        super(in, true);
+
+        mimeType = in.readString();
+        animated = in.readByte() == 1;
+        width = in.readInt();
+        height = in.readInt();
+        size = in.readInt();
+    }
+
+    public GalleryImage(Parcel in, boolean alreadyIgnoredFirstByte) {
         super(in);
 
         mimeType = in.readString();

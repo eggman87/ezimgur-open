@@ -75,15 +75,33 @@ public class GalleryItem implements Parcelable{
         isAlbum = in.readByte() == 1;
     }
 
+    public GalleryItem (Parcel in, boolean ignoreFirstByte){
+        if (ignoreFirstByte)
+            in.readByte();
+        id = in.readString();
+        title = in.readString();
+        description = in.readString();
+        dateCreated = new Date(in.readLong());
+        bandwidth = in.readString();
+        ups = in.readInt();
+        downs = in.readInt();
+        score = in.readInt();
+        views = in.readLong();
+        redditCommentsLink = in.readString();
+        accountUrl = in.readString();
+        vote = in.readString();
+        isAlbum = in.readByte() == 1;
+    }
+
     public static final Creator<GalleryItem> CREATOR = new Creator<GalleryItem>() {
         @Override
         public GalleryItem createFromParcel(Parcel in) {
             boolean isImage = in.readByte() == 1;
 
             if (isImage){
-                return GalleryImage.CREATOR.createFromParcel(in);
+                return new GalleryImage(in, true);
             } else {
-                return GalleryAlbum.CREATOR.createFromParcel(in);
+                return new GalleryAlbum(in, true);
             }
         }
 

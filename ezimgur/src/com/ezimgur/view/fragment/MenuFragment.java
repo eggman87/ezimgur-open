@@ -86,7 +86,7 @@ public class MenuFragment extends RoboSherlockFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 EzMenuItem menuItem = menuItems.get(i);
-                if (!menuItem.selected)
+                if (!menuItem.selected)  {
                     if (menuItem.activityToLaunch == GalleryActivity.class) {
                         SettingsManager manager = new SettingsManager(getActivity());
                         boolean useOldLayout = manager.getValue(SettingsManager.SETTING_USE_OLD_LAYOUT, false);
@@ -97,8 +97,8 @@ public class MenuFragment extends RoboSherlockFragment {
                         }
                         return;
                     }
-
                     mEventManager.fire(new MenuSelectEvent(menuItem.activityToLaunch));
+                }
             }
         });
 

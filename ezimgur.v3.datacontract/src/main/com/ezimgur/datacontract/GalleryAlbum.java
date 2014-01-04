@@ -21,6 +21,16 @@ public class GalleryAlbum extends GalleryItem {
     public int imageCount;
 
     public GalleryAlbum(Parcel in) {
+        super(in, true);
+
+        cover = in.readString();
+        images = new ArrayList<Image>();
+        in.readTypedList(images, Image.CREATOR);
+
+        imageCount = in.readInt();
+    }
+
+    public GalleryAlbum(Parcel in, boolean alreadyIgnoredFirstByte) {
         super(in);
 
         cover = in.readString();

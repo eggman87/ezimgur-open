@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -92,7 +93,8 @@ public class Comment extends NotificationContent implements Parcelable, Comparab
             comment.parentId = in.readString();
             comment.deleted = in.readByte() == 1;
             comment.vote = in.readString();
-            comment.children = in.readArrayList(Comment.class.getClassLoader());
+            comment.children = new ArrayList<Comment>();
+            in.readTypedList(comment.children, Comment.CREATOR);
             return comment;
         }
 

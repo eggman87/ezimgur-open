@@ -142,7 +142,7 @@ public abstract class BaseActivity extends RoboSherlockFragmentActivity {
 
 
     private int mLoadingCount = 0;
-    public void onLoadObserved(@Observes OnTaskLoadEvent event) {
+    public synchronized void onLoadObserved(@Observes OnTaskLoadEvent event) {
         if (event.getType().equals(OnTaskLoadEvent.TaskLoading.LOAD_STARTED)) {
             if (mLoadingCount == 0)
                 setSupportProgressBarIndeterminateVisibility(true);

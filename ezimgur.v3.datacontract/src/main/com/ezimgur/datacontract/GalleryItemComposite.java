@@ -3,6 +3,7 @@ package com.ezimgur.datacontract;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +35,8 @@ public class GalleryItemComposite implements Parcelable {
             GalleryItemComposite composite = new GalleryItemComposite();
             composite.galleryItem = in.readParcelable(GalleryItem.class.getClassLoader());
             composite.vote = in.readParcelable(Vote.class.getClassLoader());
-            composite.comments = in.readArrayList(Comment.class.getClassLoader());
+            composite.comments = new ArrayList<Comment>();
+            in.readTypedList(composite.comments, Comment.CREATOR);
             return composite;
         }
 
