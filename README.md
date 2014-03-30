@@ -5,7 +5,7 @@ ezimgur android app
 
 imgur browsing android application. 
 
-This project was initially a side project to learn android, decieded to open-source it so that users can develop their own features if they want to. Keep in mind that the code was originally written for/by one person, so it may contain some bad practices or code smell (cowboy coding!).
+This project was initially a side project to learn android, decided to open-source it so that users can develop their own features if they want to. Keep in mind that the code was originally written for/by one person, so it may contain some bad practices or code smell (cowboy coding!).
 
 All code is free to use as long as it is not used commerically. 
 
