@@ -140,9 +140,16 @@ public abstract class BaseActivity extends RoboSherlockFragmentActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    protected boolean useActionBarProgress() {
+        return true;
+    }
 
     private int mLoadingCount = 0;
     public synchronized void onLoadObserved(@Observes OnTaskLoadEvent event) {
+        if (!useActionBarProgress()){
+            return;
+        }
+
         if (event.getType().equals(OnTaskLoadEvent.TaskLoading.LOAD_STARTED)) {
             if (mLoadingCount == 0)
                 setSupportProgressBarIndeterminateVisibility(true);

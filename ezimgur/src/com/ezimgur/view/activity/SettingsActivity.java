@@ -16,10 +16,7 @@ import roboguice.inject.InjectView;
  */
 public class SettingsActivity extends BaseActivity{
 
-    @InjectView(R.id.sc_sett_ck_image_below) CheckBox mCheckImageBelow;
     @InjectView(R.id.sc_sett_ck_full_screen) CheckBox mCheckFullScreen;
-    @InjectView(R.id.sc_sett_ck_old_layout) CheckBox checkUseOldLayout;
-    @InjectView(R.id.sc_sett_ck_web_gifs) CheckBox checkUseWebForGifs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,36 +27,12 @@ public class SettingsActivity extends BaseActivity{
         boolean defaultUseOldLayout = ViewUtils.isTabletInLandscapeMode(this);
 
         final SettingsManager manager = new SettingsManager(this);
-        mCheckImageBelow.setChecked(manager.getValue(SettingsManager.SETTING_IMAGE_BELOW, false));
         mCheckFullScreen.setChecked(manager.getValue(SettingsManager.SETTING_FULL_SCREEN_MODE, false));
-        checkUseOldLayout.setChecked(manager.getValue(SettingsManager.SETTING_USE_OLD_LAYOUT, defaultUseOldLayout));
-        checkUseWebForGifs.setChecked(manager.getValue(SettingsManager.SETTING_USE_WEB_GIF_VIEWER, false));
-
-        mCheckImageBelow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                manager.saveValue(SettingsManager.SETTING_IMAGE_BELOW, isChecked);
-            }
-        });
 
         mCheckFullScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 manager.saveValue(SettingsManager.SETTING_FULL_SCREEN_MODE, isChecked);
-            }
-        });
-
-        checkUseOldLayout.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                manager.saveValue(SettingsManager.SETTING_USE_OLD_LAYOUT, isChecked);
-            }
-        });
-
-        checkUseWebForGifs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                manager.saveValue(SettingsManager.SETTING_USE_WEB_GIF_VIEWER, isChecked);
             }
         });
     }

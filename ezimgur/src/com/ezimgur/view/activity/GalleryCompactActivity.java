@@ -27,12 +27,15 @@ import com.ezimgur.view.adapter.CompositeThumbnailAdapter;
 import com.ezimgur.view.adapter.ImagesViewPagerAdapter;
 import com.ezimgur.view.adapter.ThumbnailsAdapter;
 import com.ezimgur.view.component.FixedSlidingDrawer;
+import com.ezimgur.view.component.ProgressWheel;
 import com.ezimgur.view.event.*;
 import com.ezimgur.view.fragment.*;
+import com.ezimgur.view.utils.ViewUtils;
 import roboguice.event.Observes;
 import roboguice.inject.InjectFragment;
 import roboguice.inject.InjectView;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +54,9 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
     @InjectView(R.id.screen_gallery_compact_vp_images) ViewPager viewPager;
     @InjectView(R.id.screen_gallery_compact_lv_captions) ListView listCaptions;
     @InjectView(R.id.banana_for_scale)ImageView imgBananaForScale;
-    @InjectView(R.id.screen_gallery_compact_dw)FixedSlidingDrawer imageDrawer;
+    @InjectView(R.id.screen_gallery_compact_dw) @Nullable FixedSlidingDrawer imageDrawer;
+    @InjectView(R.id.screen_gallery_compact_captions_progress)ProgressWheel progressCaptions;
+    @InjectView(R.id.screen_gallery_compact_screen_progress)ProgressWheel progressScreen;
     @InjectFragment(R.id.screen_gallery_compact_frag_item_details)ItemDetailsFragment detailsFragment;
 
     private String currentGallery;
@@ -71,6 +76,11 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
 
     @Override
     public void onBackPressed() {
+        if (imageDrawer == null) {
+            super.onBackPressed();
+            return;
+        }
+
         if (imageDrawer.isOpened()) {
             imageDrawer.animateClose();
         } else {
@@ -89,6 +99,14 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
         {
             isRefreshingToken = true;
             new InitApplicationTask(this).execute();
+        } else {
+            progressScreen.setVisibility(View.GONE);
+        }
+
+
+        boolean isTablet = ViewUtils.isTabletInLandscapeMode(this);
+        if (isTablet) {
+            detailsFragment.disableDrawerHandle();
         }
     }
 
@@ -136,6 +154,7 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
             onCompositesReady();
             thumsGallery.setSelection(currentPosition);
             getSupportActionBar().setTitle(currentGallery);
+            clearCaptionsAndShowProgress();
             controller.loadCaptions(composites.get(currentPosition), currentPosition);
             detailsFragment.setGalleryItem(composites.get(currentPosition).galleryItem);
 
@@ -218,8 +237,10 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
         if (title == MENU_REFRESH)  {
             if (isSearchGallery)
                 Toast.makeText(this, "you can not refresh a search, change gallery or research", Toast.LENGTH_SHORT).show();
-            else
-               controller.loadGallery(currentGallery == null ? "hot" : currentGallery, currentDays, currentSort);
+            else {
+                progressScreen.setVisibility(View.VISIBLE);
+                controller.loadGallery(currentGallery == null ? "hot" : currentGallery, currentDays, currentSort);
+            }
         } else if (title == MENU_CHANGE_GALLERY) {
             changeGallery();
         } else if (title == MENU_CHANGE_DAYSAGO) {
@@ -227,6 +248,7 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
         } else if (title == CONTEXT_MENU_COMMENT_ITEM) {
             openItemDetailFragment();
         } else if (title == MENU_RELOAD_COMMENTS) {
+            clearCaptionsAndShowProgress();
             controller.loadCaptions(composites.get(currentPosition), currentPosition);
         } else if (title == MENU_SEARCH_GALLERY) {
             if (!item.isActionViewExpanded())
@@ -236,6 +258,11 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected boolean useActionBarProgress() {
+        return false;
     }
 
     public void onApplicationInitialized(@Observes InitApplicationEvent event){
@@ -248,11 +275,16 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
         currentSort = sort;
         currentDays = 0;
 
+        progressScreen.setVisibility(View.VISIBLE);
         controller.loadGallery(galleryName, 0, sort);
         isRefreshingToken = false;
     }
 
     public void onGalleryeLoad(@Observes GalleryLoadEvent event) {
+        progressScreen.setVisibility(View.GONE);
+        if (!event.isSuccess) {
+            return;
+        }
         currentGallery = event.galleryName;
         getSupportActionBar().setTitle(currentGallery);
         setItemsToComposites(event.galleryItems);
@@ -269,6 +301,7 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
     }
 
     public void onCaptionsLoaded(@Observes GalleryCaptionLoadEvent event) {
+        progressCaptions.setVisibility(View.GONE);
         if (event.success) {
             if (event.targetPostition == viewPager.getCurrentItem()) {
                 GalleryItemComposite target = event.composite;
@@ -293,8 +326,15 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
     };
 
     private void onCompositesReady() {
+
         //load first set of captions
-        controller.loadCaptions(composites.get(0), 0);
+        if (currentGalleryHasComments()) {
+            clearCaptionsAndShowProgress();
+            controller.loadCaptions(composites.get(0), 0);
+        } else {
+            clearCaptions();
+        }
+
         detailsFragment.setGalleryItem(composites.get(0).galleryItem);
 
         SettingsManager manager = new SettingsManager(this);
@@ -316,7 +356,10 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
             public void onPageSelected(int position) {
                 currentPosition = position;
                 GalleryItemComposite composite = composites.get(position);
-                controller.loadCaptions(composite, position);
+                if (currentGalleryHasComments()) {
+                    clearCaptionsAndShowProgress();
+                    controller.loadCaptions(composite, position);
+                }
                 detailsFragment.setGalleryItem(composite.galleryItem);
                 eventManager.fire(new PageShowEvent(position, composite.galleryItem.id));
                 thumsGallery.setSelection(position);
@@ -391,18 +434,33 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
         }
     }
 
+    private void clearCaptionsAndShowProgress() {
+        clearCaptions();
+        progressCaptions.setVisibility(View.VISIBLE);
+    }
+
+    private void clearCaptions(){
+        CaptionAdapter captionAdapter = (CaptionAdapter) listCaptions.getAdapter();
+        if (captionAdapter != null) {
+            captionAdapter.clearCaptions();
+        }
+    }
+
     @Override
     public void changeGalleryClicked(String galleryName, boolean saveSubReddit, GallerySort sort, boolean makeDefault) {
         this.saveSubReddit = saveSubReddit;
         currentSort = sort;
+        progressScreen.setVisibility(View.VISIBLE);
         controller.loadGallery(galleryName, 0, sort, true, makeDefault, saveSubReddit);
     }
 
     public void onDaysAgoSelectionChanged(@Observes ChangeDaysAgoEvent event) {
+        progressScreen.setVisibility(View.VISIBLE);
         controller.loadGallery(currentGallery == null ? "hot" : currentGallery, event.getDaysAgo(), currentSort, true, false, false);
     }
 
     public void onCommentSubmitted(@Observes CommentSubmittedEvent event) {
+        clearCaptionsAndShowProgress();
         controller.loadCaptions(composites.get(currentPosition), currentPosition);
     }
 }

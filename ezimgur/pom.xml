@@ -101,6 +101,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--com.pnikosis:materialish-progress:1.2-->
+        <!--<dependency>-->
+            <!--<groupId>com.pnikosis</groupId>-->
+            <!--<artifactId>materialish-progress</artifactId>-->
+            <!--<version>1.2</version>-->
+        <!--</dependency>-->
     </dependencies>
     <build>
         <sourceDirectory>src</sourceDirectory>

@@ -10,8 +10,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.ezimgur.R;
 import com.ezimgur.app.EzApplication;
+import com.ezimgur.datacontract.Conversation;
 import com.ezimgur.datacontract.Message;
+import com.ezimgur.task.LoadConversationsTask;
 import com.ezimgur.task.LoadMessagesTask;
+import com.ezimgur.view.adapter.ConversationsAdapter;
 import com.ezimgur.view.adapter.MessagesAdapter;
 import com.ezimgur.view.event.OpenMessageDetailEvent;
 import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragment;
@@ -35,7 +38,7 @@ public class MessagesFragment extends RoboSherlockFragment {
 
     @Inject EventManager mEventManager;
 
-    private MessagesAdapter mMessagesAdapter;
+    private ConversationsAdapter conversationsAdapter;
 
     public static MessagesFragment newInstance(CommunityFragmentAdapter.OnMessagesFragmentChangedListener listener){
         MessagesFragment fragment = new MessagesFragment();
@@ -65,13 +68,13 @@ public class MessagesFragment extends RoboSherlockFragment {
     private void loadMessages(){
         mProgressIndicator.setVisibility(View.VISIBLE);
         mTxtStatus.setVisibility(View.GONE);
-        new LoadMessagesTask(getActivity()){
+        new LoadConversationsTask(getActivity()){
 
             @Override
-            protected void onSuccess(List<Message> messages) throws Exception {
-                super.onSuccess(messages);
+            protected void onSuccess(List<Conversation> conversations) throws Exception {
+                super.onSuccess(conversations);
 
-                setMessages(messages);
+                setMessages(conversations);
                 mProgressIndicator.setVisibility(View.GONE);
             }
 
@@ -86,15 +89,15 @@ public class MessagesFragment extends RoboSherlockFragment {
         }.execute();
     }
 
-    public void setMessages(List<Message> messages){
-        if (messages != null && messages.size() > 0){
+    public void setMessages(List<Conversation> conversations){
+        if (conversations != null && conversations.size() > 0){
             mTxtStatus.setVisibility(View.GONE);
 
-            if (mMessagesAdapter == null) {
-                mMessagesAdapter = new MessagesAdapter(messages);
-                mListMessages.setAdapter(mMessagesAdapter);
+            if (conversationsAdapter == null) {
+                conversationsAdapter = new ConversationsAdapter(conversations);
+                mListMessages.setAdapter(conversationsAdapter);
             } else {
-                mMessagesAdapter.updateDateSet(messages);
+                conversations.addAll(conversations);
             }
 
             attachViewListener();
@@ -108,7 +111,7 @@ public class MessagesFragment extends RoboSherlockFragment {
         mListMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mEventManager.fire(new OpenMessageDetailEvent(mMessagesAdapter.getItem(i).parentId));
+                mEventManager.fire(new OpenMessageDetailEvent(conversationsAdapter.getItem(i).id));
             }
         });
     }

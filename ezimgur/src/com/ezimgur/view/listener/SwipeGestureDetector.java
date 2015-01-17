@@ -55,6 +55,11 @@ public class SwipeGestureDetector extends GestureDetector.SimpleOnGestureListene
     }
 
     @Override
+    public boolean onDown(MotionEvent e) {
+        return true;
+    }
+
+    @Override
     public void onLongPress(MotionEvent e) {
         if (mListener != null && e.getPointerCount() ==1){
             mListener.onLongPress();

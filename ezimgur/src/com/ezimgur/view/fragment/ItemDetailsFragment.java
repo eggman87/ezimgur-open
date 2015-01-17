@@ -23,6 +23,7 @@ import com.ezimgur.instrumentation.Log;
 import com.ezimgur.task.LoadGalleryItemTask;
 import com.ezimgur.task.VoteOnImageTask;
 import com.ezimgur.view.activity.CommunityActivity;
+import com.ezimgur.view.component.ProgressWheel;
 import com.ezimgur.view.event.AlbumTotalCountEvent;
 import com.ezimgur.view.event.OnSelectImageEvent;
 import com.ezimgur.view.event.UpVoteItemEvent;
@@ -55,6 +56,7 @@ public class ItemDetailsFragment extends RoboSherlockFragment {
     @InjectView(R.id.img_upvotes) ImageView mTextUpVoteImage;
     @InjectView(R.id.img_downvotes) ImageView mTextDownVoteImage;
     @InjectView(R.id.caption_handle) ImageView mCaptionHandle;
+    @InjectView(R.id.frag_item_details_progress) ProgressWheel mProgressIndicator;
 
     private GalleryItemLoadedListener mItemLoadedListener;
     private ItemDetails mItemDetails;
@@ -70,6 +72,10 @@ public class ItemDetailsFragment extends RoboSherlockFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
+    }
+
+    public void disableDrawerHandle(){
+        mCaptionHandle.setVisibility(View.GONE);
     }
 
     @Override
@@ -269,12 +275,20 @@ public class ItemDetailsFragment extends RoboSherlockFragment {
     }
 
     public void upVoteImage() {
+        mProgressIndicator.setVisibility(View.VISIBLE);
         new VoteOnImageTask(getActivity(), mItemDetails.id, VoteType.UP){
+
+            @Override
+            protected void onException(Exception e) throws RuntimeException {
+                super.onException(e);
+                mProgressIndicator.setVisibility(View.GONE);
+            }
 
             @Override
             protected void onSuccess(Boolean success) throws Exception {
                 super.onSuccess(success);
 
+                mProgressIndicator.setVisibility(View.GONE);
                 VoteType type = VoteUtils.getVoteTypeFromString(mItemDetails.vote);
                 if (success && type != VoteType.UP) {
                     mItemDetails.vote = VoteUtils.getUpVoteString();
@@ -298,9 +312,16 @@ public class ItemDetailsFragment extends RoboSherlockFragment {
         new VoteOnImageTask(getActivity(), mItemDetails.id, VoteType.DOWN){
 
             @Override
+            protected void onException(Exception e) throws RuntimeException {
+                super.onException(e);
+                mProgressIndicator.setVisibility(View.GONE);
+            }
+
+            @Override
             protected void onSuccess(Boolean success) throws Exception {
                 super.onSuccess(success);
 
+                mProgressIndicator.setVisibility(View.GONE);
                 VoteType type = VoteUtils.getVoteTypeFromString(mItemDetails.vote);
                 if (success && type != VoteType.DOWN) {
                     mItemDetails.vote = VoteUtils.getDownVoteString();

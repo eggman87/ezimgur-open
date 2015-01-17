@@ -108,6 +108,7 @@ public class GalleryController implements IGalleryController {
                     cause = e.getMessage();
                 String fault = cause == null ? "unknown":cause;
 
+                mEventManager.fire(new GalleryLoadEvent(false));
                 Toast.makeText(context, "unable to talk to imgur. cause: " + fault, Toast.LENGTH_LONG).show();
             }
         }.execute();

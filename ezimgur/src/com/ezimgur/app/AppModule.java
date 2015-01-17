@@ -5,6 +5,7 @@ import com.ezimgur.api.impl.account.AccountApiImpl;
 import com.ezimgur.api.impl.album.AlbumApiImpl;
 import com.ezimgur.api.impl.authentication.AuthenticationApiImpl;
 import com.ezimgur.api.impl.comment.CommentApiImpl;
+import com.ezimgur.api.impl.conversation.ConversationApiImpl;
 import com.ezimgur.api.impl.gallery.GalleryApiImpl;
 import com.ezimgur.api.impl.image.ImageApiImpl;
 import com.ezimgur.api.impl.message.MessageApiImpl;
@@ -35,6 +36,7 @@ public class AppModule extends AbstractModule {
         bind(ImageApi.class).to(ImageApiImpl.class);
         bind(MessageApi.class).to(MessageApiImpl.class);
         bind(NotificationApi.class).to(NotificationApiImpl.class);
+        bind(ConversationApi.class).to(ConversationApiImpl.class);
 
 
         bind(IGalleryController.class).to(GalleryController.class).asEagerSingleton();

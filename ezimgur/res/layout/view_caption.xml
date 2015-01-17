@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res/com.ezimgur"
               android:layout_gravity="left"
               android:background="#80000000"
               android:layout_width="fill_parent"
@@ -86,5 +87,15 @@
                 android:layout_below="@id/cv_caption"
                 android:visibility="invisible"
                 android:layout_alignParentRight="true"/>
+        <com.ezimgur.view.component.ProgressWheel
+                android:id="@+id/cv_progress"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                app:matProg_barColor="@color/ezimgur_red"
+                app:matProg_progressIndeterminate="true" />
     </RelativeLayout>
 </LinearLayout>

@@ -12,10 +12,16 @@ import java.util.List;
  */
 public class GalleryLoadEvent {
 
+    public boolean isSuccess;
     public String galleryName;
     public List<GalleryItem> galleryItems;
 
+    public GalleryLoadEvent(boolean isSuccess) {
+        this.isSuccess = isSuccess;
+    }
+
     public GalleryLoadEvent(String galleryName, List<GalleryItem> items) {
+        isSuccess = true;
         this.galleryName = galleryName;
         this.galleryItems = items;
     }

@@ -25,9 +25,11 @@ import com.ezimgur.view.activity.CommunityActivity;
 import com.ezimgur.view.builder.URLSpanConverter;
 import com.ezimgur.view.builder.UiBuilder;
 import com.ezimgur.view.component.CaptionGallery;
+import com.ezimgur.view.component.ProgressWheel;
 import com.ezimgur.view.utils.RichTextUtils;
 import com.ezimgur.view.utils.VoteUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,6 +54,11 @@ public class CaptionAdapter extends BaseAdapter {
     public void setCaptions(String galleryItemId, List<Comment> captions) {
         mCaptions = captions;
         mGalleryItemId = galleryItemId;
+    }
+
+    public void clearCaptions( ){
+        mCaptions = new ArrayList<Comment>();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -84,6 +91,7 @@ public class CaptionAdapter extends BaseAdapter {
             viewHolder.txtDownVote = (ImageView) convertView.findViewById(R.id.cv_tv_downvote);
             viewHolder.txtUpVote = (ImageView) convertView.findViewById(R.id.cv_tv_upvote);
             viewHolder.txtTimeAgo = (TextView) convertView.findViewById(R.id.cv_timeago);
+            viewHolder.progressWheel = (ProgressWheel) convertView.findViewById(R.id.cv_progress);
 
             convertView.setTag(viewHolder);
         } else {
@@ -156,11 +164,19 @@ public class CaptionAdapter extends BaseAdapter {
                 if (!EzApplication.isAuthenticatedWithWarning(viewHolder.txtDownVote.getContext()))
                     return;
 
+                viewHolder.progressWheel.setVisibility(View.VISIBLE);
                 new VoteOnCommentTask(v.getContext(), targetCaption.id, VoteType.UP){
+
+                    @Override
+                    protected void onException(Exception e) throws RuntimeException {
+                        super.onException(e);
+                        viewHolder.progressWheel.setVisibility(View.GONE);
+                    }
 
                     @Override
                     protected void onSuccess(Boolean result) throws Exception {
                         super.onSuccess(result);
+                        viewHolder.progressWheel.setVisibility(View.GONE);
                         VoteType vote = VoteUtils.getVoteTypeFromString(targetCaption.vote);
                         if (vote == VoteType.UP) {
                             targetCaption.points -= 1;
@@ -182,10 +198,19 @@ public class CaptionAdapter extends BaseAdapter {
                 if (!EzApplication.isAuthenticatedWithWarning(viewHolder.txtDownVote.getContext()))
                     return;
 
+                viewHolder.progressWheel.setVisibility(View.VISIBLE);
                 new VoteOnCommentTask(v.getContext(), targetCaption.id, VoteType.DOWN){
+
+                    @Override
+                    protected void onException(Exception e) throws RuntimeException {
+                        super.onException(e);
+                        viewHolder.progressWheel.setVisibility(View.GONE);
+                    }
+
                     @Override
                     protected void onSuccess(Boolean result) throws Exception {
                         super.onSuccess(result);
+                        viewHolder.progressWheel.setVisibility(View.GONE);
                         VoteType vote = VoteUtils.getVoteTypeFromString(targetCaption.vote);
                         if (vote == VoteType.DOWN) {
                             targetCaption.points += 1;
@@ -237,5 +262,6 @@ public class CaptionAdapter extends BaseAdapter {
         ImageView txtUpVote;
         ImageView txtDownVote;
         TextView txtTimeAgo;
+        ProgressWheel progressWheel;
     }
 }

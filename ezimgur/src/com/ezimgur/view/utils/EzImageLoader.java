@@ -39,7 +39,6 @@ public class EzImageLoader {
                 .cacheOnDisc(true)
                 //.bitmapConfig(Bitmap.Config.RGB_565)
                 //.cacheInMemory(false)
-                .showImageOnLoading(R.drawable.progress_indeterminate_horizontal_holo_light)
                 //.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                 .build();
 

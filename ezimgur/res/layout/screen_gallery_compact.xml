@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res/com.ezimgur"
               android:orientation="vertical"
               android:background="@color/Black"
               android:layout_width="match_parent"
@@ -32,6 +33,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="100dp"/>
+    <com.ezimgur.view.component.ProgressWheel
+            android:id="@+id/screen_gallery_compact_screen_progress"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:matProg_barColor="@color/ezimgur_red"
+            app:matProg_progressIndeterminate="true" />
     <com.ezimgur.view.component.FixedSlidingDrawer
         android:id="@+id/screen_gallery_compact_dw"
         android:layout_width="match_parent"
@@ -58,19 +68,28 @@
                 class="com.ezimgur.view.fragment.ItemDetailsFragment"/>
 
         </RelativeLayout>
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/screen_gallery_compact_dw_content"
             android:orientation="vertical"
             android:background="@color/Black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <com.ezimgur.view.component.ProgressWheel
+                    android:id="@+id/screen_gallery_compact_captions_progress"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    app:matProg_barColor="@color/ezimgur_red"
+                    app:matProg_progressIndeterminate="true" />
         <ListView
             android:id="@+id/screen_gallery_compact_lv_captions"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        </LinearLayout>
+        </RelativeLayout>
     </com.ezimgur.view.component.FixedSlidingDrawer>
 
 </RelativeLayout>

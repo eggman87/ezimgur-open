@@ -55,6 +55,12 @@ public class ImgurApiConstants {
     public static final String URL_MESSAGE_CREATE_NEW = "https://api.imgur.com/3/message";
     public static final String URL_MESSAGE_DELETE = "https://api.imgur.com/3/message/%s";
 
+    public static final String URL_CONVERSATION_GET_ALL = "https://api.imgur.com/3/conversations";
+    //id, page, offset
+    public static final String URL_CONVERSATION_GET = "https://api.imgur.com/3/conversations/%s/%s/%s";
+    public static final String URL_CONVERSATION_DELETE = "https://api.imgur.com/3/conversations/%s";
+    public static final String URL_CONVERSATION_CREATE = "https://api.imgur.com/3/conversations/%s";
+
     public static final String CLIENT_ID = "ASK_EGGMAN_FOR_KEY";
     public static final String CLIENT_SECRET = "ASK_EGGMAN_FOR_KEY";
     public static final String OAUTH_URL = "https://api.imgur.com/oauth2/authorize?client_id=%s&redirect_uri=%s&response_type=%s";

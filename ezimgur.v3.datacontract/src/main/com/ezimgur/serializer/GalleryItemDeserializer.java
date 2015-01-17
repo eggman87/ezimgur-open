@@ -1,6 +1,7 @@
 package com.ezimgur.serializer;
 
 import com.ezimgur.datacontract.GalleryAlbum;
+import com.ezimgur.datacontract.GalleryGif;
 import com.ezimgur.datacontract.GalleryImage;
 import com.ezimgur.datacontract.GalleryItem;
 import com.google.gson.*;
@@ -22,6 +23,9 @@ public class GalleryItemDeserializer implements JsonDeserializer<GalleryItem> {
                 object.get("is_album") != null &&
                 object.get("is_album").getAsBoolean()) {
             return GsonUtils.getGsonInstance().fromJson(json, GalleryAlbum.class);
+
+        } else if (object != null && object.get("mp4") != null) {
+            return GsonUtils.getGsonInstance().fromJson(json, GalleryGif.class);
         } else {
             return GsonUtils.getGsonInstance().fromJson(json, GalleryImage.class);
         }

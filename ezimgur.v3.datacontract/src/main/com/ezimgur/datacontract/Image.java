@@ -29,6 +29,8 @@ public class Image implements Parcelable {
     @SerializedName("deletehash")
     public String deleteHash;
     public String accountUrl;
+    @SerializedName("mp4")
+    public String movieUrl;
 
     @Override
     public int describeContents() {

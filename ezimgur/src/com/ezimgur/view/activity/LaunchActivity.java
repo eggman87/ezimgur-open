@@ -19,17 +19,7 @@ public class LaunchActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SettingsManager manager = new SettingsManager(this);
-
-        boolean defaultUseOldLayout = ViewUtils.isTabletInLandscapeMode(this);
-
-        boolean useOldLayout =  manager.getValue(SettingsManager.SETTING_USE_OLD_LAYOUT, defaultUseOldLayout);
-        if (useOldLayout) {
-            Intent intent = new Intent(this, GalleryActivity.class);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(this, GalleryCompactActivity.class);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(this, GalleryCompactActivity.class);
+        startActivity(intent);
     }
 }
