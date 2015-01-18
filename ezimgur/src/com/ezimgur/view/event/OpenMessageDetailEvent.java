@@ -9,8 +9,10 @@ package com.ezimgur.view.event;
 public class OpenMessageDetailEvent {
 
     public int messageId;
+    public String recipient;
 
-    public OpenMessageDetailEvent(int id){
+    public OpenMessageDetailEvent(int id, String recipient){
         this.messageId = id;
+        this.recipient = recipient;
     }
 }

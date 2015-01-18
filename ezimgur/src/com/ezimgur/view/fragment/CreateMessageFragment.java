@@ -86,7 +86,7 @@ public class CreateMessageFragment extends RoboSherlockFragment {
         if (!validateRequiredField(body, "message"))
             return;
 
-        new CreateMessageTask(getActivity(), to, subject, body, null){
+        new CreateMessageTask(getActivity(), to, body){
 
             @Override
             protected void onSuccess(Boolean aBoolean) throws Exception {

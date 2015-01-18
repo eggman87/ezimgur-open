@@ -64,7 +64,11 @@ public class ImageApiImpl extends ApiBase implements ImageApi {
         if (image.mimeType.equals("image/png")){
             ext = ".png";
         } else if (image.mimeType.equals("image/gif")){
-            ext = ".gif";
+            if (image.movieUrl != null) {
+                ext = ".gifv";
+            } else {
+                ext = ".gif";
+            }
         }
         return ext;
     }

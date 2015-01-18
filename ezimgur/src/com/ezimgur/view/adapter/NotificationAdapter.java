@@ -1,5 +1,6 @@
 package com.ezimgur.view.adapter;
 
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -69,8 +70,8 @@ public class NotificationAdapter extends BaseAdapter {
             Message targetMessage = (Message) targetNote.content;
             viewHolder.txtBody.setText(targetMessage.body);
             viewHolder.txtTitle.setText("from " +targetMessage.from);
-            viewHolder.txtSubject.setText(targetMessage.subject);
-            viewHolder.txtDate.setText(targetMessage.timeStamp);
+            CharSequence time = DateUtils.getRelativeTimeSpanString(targetMessage.datetime * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+            viewHolder.txtDate.setText(time);
 
         } else {
             Comment targetComment = (Comment) targetNote.content;

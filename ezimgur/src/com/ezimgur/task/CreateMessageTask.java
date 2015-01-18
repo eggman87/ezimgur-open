@@ -1,6 +1,7 @@
 package com.ezimgur.task;
 
 import android.content.Context;
+import com.ezimgur.api.ConversationApi;
 import com.ezimgur.api.MessageApi;
 import com.google.inject.Inject;
 
@@ -12,25 +13,21 @@ import com.google.inject.Inject;
  */
 public class CreateMessageTask extends LoadingTask<Boolean> {
 
-    @Inject MessageApi mMessageApi;
+    @Inject
+    protected ConversationApi conversationApi;
 
-    private String mRecipient;
-    private String mSubject;
-    private String mBody;
-    private Integer mParentId;
+    private String recipient;
+    private String message;
 
-    public CreateMessageTask(Context context, String recipient, String subject, String body, Integer parentId) {
+    public CreateMessageTask(Context context, String recipient, String message) {
         super(context);
-        mRecipient = recipient;
-        mSubject = subject;
-        mBody = body;
-        mParentId = parentId;
+        this.recipient = recipient;
+        this.message = message;
     }
 
     @Override
     public Boolean call() throws Exception {
-
-        mMessageApi.createNewMessage(mRecipient, mBody, mSubject, mParentId);
+        conversationApi.sendMessage(recipient, message);
         return true;
     }
 }

@@ -67,18 +67,22 @@ public class CommunityFragmentAdapter extends FragmentStatePagerAdapter {
 
     OnMessagesFragmentChangedListener mListener = new OnMessagesFragmentChangedListener() {
         @Override
-        public void onSwitchToNext(int id) {
-
+        public void onSwitchToNext(int id, String recipient) {
             mFragmentManager.beginTransaction().remove(mFragmentAtZero)
                     .commit();
             if ( id != 0 && mFragmentAtZero instanceof MessagesFragment){
-                mFragmentAtZero = MessageDetailFragment.newInstance(id);
+                mFragmentAtZero = MessageDetailFragment.newInstance(id, recipient);
             }else if (mFragmentAtZero instanceof MessagesFragment){ // Instance of NextFragment
                 mFragmentAtZero = CreateMessageFragment.newInstance();
             } else {
                 mFragmentAtZero = MessagesFragment.newInstance(mListener);
             }
             notifyDataSetChanged();
+        }
+
+        @Override
+        public void onSwitchToNext(int id) {
+            onSwitchToNext(id, null);
         }
 
         @Override
@@ -90,8 +94,8 @@ public class CommunityFragmentAdapter extends FragmentStatePagerAdapter {
         }
     };
 
-    public void goToMessageDetail(int id){
-        mListener.onSwitchToNext(id);
+    public void goToMessageDetail(int id, String recipient){
+        mListener.onSwitchToNext(id, recipient);
     }
 
     public void composeMessage(String userName){
@@ -110,6 +114,7 @@ public class CommunityFragmentAdapter extends FragmentStatePagerAdapter {
     }
 
     public interface OnMessagesFragmentChangedListener {
+        void onSwitchToNext(int id, String recipient);
         void onSwitchToNext(int id);
         void composeTo(String username);
     }

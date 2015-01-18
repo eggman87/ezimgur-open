@@ -27,7 +27,7 @@
         android:layout_height=".5dp"
         android:layout_below="@id/main_vp_thumbnails"
         android:background="@color/ezimgur_red"/>
-    <android.support.v4.view.ViewPager
+    <com.ezimgur.view.component.NonSwipeableViewPager
         android:id="@+id/screen_gallery_compact_vp_images"
         android:layout_below="@id/screen_gallery_compact_v_divider"
         android:layout_width="match_parent"

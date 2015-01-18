@@ -27,6 +27,7 @@ import com.ezimgur.view.adapter.CompositeThumbnailAdapter;
 import com.ezimgur.view.adapter.ImagesViewPagerAdapter;
 import com.ezimgur.view.adapter.ThumbnailsAdapter;
 import com.ezimgur.view.component.FixedSlidingDrawer;
+import com.ezimgur.view.component.NonSwipeableViewPager;
 import com.ezimgur.view.component.ProgressWheel;
 import com.ezimgur.view.event.*;
 import com.ezimgur.view.fragment.*;
@@ -51,7 +52,7 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
     @Inject IGalleryController controller;
     @Inject ImageApi imageApi;
     @InjectView(R.id.main_vp_thumbnails)Gallery thumsGallery;
-    @InjectView(R.id.screen_gallery_compact_vp_images) ViewPager viewPager;
+    @InjectView(R.id.screen_gallery_compact_vp_images)NonSwipeableViewPager viewPager;
     @InjectView(R.id.screen_gallery_compact_lv_captions) ListView listCaptions;
     @InjectView(R.id.banana_for_scale)ImageView imgBananaForScale;
     @InjectView(R.id.screen_gallery_compact_dw) @Nullable FixedSlidingDrawer imageDrawer;
@@ -462,5 +463,9 @@ public class GalleryCompactActivity extends BaseActivity implements DialogChange
     public void onCommentSubmitted(@Observes CommentSubmittedEvent event) {
         clearCaptionsAndShowProgress();
         controller.loadCaptions(composites.get(currentPosition), currentPosition);
+    }
+
+    public void zoomInStateChanged(boolean isZoomedIn) {
+        viewPager.setSwipingEnabled(!isZoomedIn);
     }
 }

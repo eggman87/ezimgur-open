@@ -111,7 +111,8 @@ public class MessagesFragment extends RoboSherlockFragment {
         mListMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mEventManager.fire(new OpenMessageDetailEvent(conversationsAdapter.getItem(i).id));
+                Conversation conversation = conversationsAdapter.getItem(i);
+                mEventManager.fire(new OpenMessageDetailEvent(conversation.id, conversation.withAccountUsername));
             }
         });
     }

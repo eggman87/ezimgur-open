@@ -8,15 +8,21 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.ezimgur.R;
+import com.ezimgur.api.impl.conversation.request.GetConversationRequest;
 import com.ezimgur.app.EzApplication;
+import com.ezimgur.datacontract.Conversation;
 import com.ezimgur.datacontract.Message;
 import com.ezimgur.task.CreateMessageTask;
 import com.ezimgur.task.DeleteMessageTask;
 import com.ezimgur.task.GetMessageThreadTask;
-import com.ezimgur.view.adapter.MessageThreadAdapter;
+import com.ezimgur.task.LoadConversationTask;
+import com.ezimgur.view.adapter.MessageComparator;
+import com.ezimgur.view.adapter.MessagesAdapter;
 import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragment;
 import roboguice.inject.InjectView;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,16 +41,18 @@ public class MessageDetailFragment extends RoboSherlockFragment {
     @InjectView(R.id.frag_msg_detail_ib_delete)ImageButton mBtnDelete;
 
     private List<Message> mMessages;
-    private int mParentId = 0;
+    private int convoId;
+    private String from;
+    private int currentPage;
 
-    public static MessageDetailFragment newInstance(int messageId) {
+    public static MessageDetailFragment newInstance(int conversationId, String from) {
         MessageDetailFragment detailFragment = new MessageDetailFragment();
 
         Bundle args = new Bundle();
-        args.putInt("messageId", messageId);
+        args.putInt("convoId", conversationId);
+        args.putString("from", from);
 
         detailFragment.setArguments(args);
-        //detailFragment.setRetainInstance(true);
 
         return detailFragment;
     }
@@ -61,38 +69,41 @@ public class MessageDetailFragment extends RoboSherlockFragment {
 
         Bundle args = getArguments();
         if (args != null) {
-            mParentId = args.getInt("messageId");
+            convoId = args.getInt("convoId");
+            from = args.getString("from");
         }
 
-        loadMessageThread(mParentId);
+        loadMessageThread(convoId);
 
         attachViewListeners();
     }
 
-    private void loadMessageThread(int parentId){
+    private void loadMessageThread(int convoId){
         mProgressIndicator.setVisibility(View.VISIBLE);
-        new GetMessageThreadTask(getActivity(), parentId){
 
-            @Override
-            protected void onSuccess(List<Message> messages) throws Exception {
-                super.onSuccess(messages);
-                mProgressIndicator.setVisibility(View.GONE);
-                setMessageThread(messages);
-            }
-
+        new LoadConversationTask(getActivity(), convoId, currentPage){
 
             @Override
             protected void onException(Exception e) throws RuntimeException {
                 super.onException(e);
                 mProgressIndicator.setVisibility(View.GONE);
             }
+
+            @Override
+            protected void onSuccess(Conversation conversation) throws Exception {
+                super.onSuccess(conversation);
+                mProgressIndicator.setVisibility(View.GONE);
+                Collections.sort(conversation.messages, new MessageComparator());
+                setMessageThread(conversation.messages);
+            }
+
         }.execute();
     }
 
     public void setMessageThread(List<Message> messages){
         mMessages = messages;
-        mTxtSubject.setText(messages.get(0).subject);
-        mListThread.setAdapter(new MessageThreadAdapter(messages));
+        mTxtSubject.setText("convo with " + from);
+        mListThread.setAdapter(new MessagesAdapter(messages));
     }
 
     private void attachViewListeners(){
@@ -115,36 +126,29 @@ public class MessageDetailFragment extends RoboSherlockFragment {
         String reply = mTextReply.getText().toString();
 
         if (reply.length() > 0) {
+            new CreateMessageTask(getActivity(), from, reply) {
 
-            String myUsername = EzApplication.getAccountUserName();
-            String toUsername = "";
-            for (Message message : mMessages){
-                if (!message.from.equals(myUsername)){
-                    toUsername = message.from;
-                    break;
+                @Override
+                protected void onException(Exception e) throws RuntimeException {
+                    super.onException(e);
                 }
-            }
-            if (toUsername.equals(""))
-                toUsername = myUsername;
-
-            final int parentId = mMessages.get(0).parentId;
-            new CreateMessageTask(getActivity(), toUsername, null, reply, parentId){
 
                 @Override
                 protected void onSuccess(Boolean aBoolean) throws Exception {
                     super.onSuccess(aBoolean);
-                    loadMessageThread(parentId);
-                    mTextReply.setText("");
                     InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(mTextReply.getWindowToken(), 0);
+                    mTextReply.setText("");
+
+                    loadMessageThread(convoId);
                 }
             }.execute();
         }
     }
 
     private void deleteThread(){
-        new DeleteMessageTask(getActivity(), mParentId){
+        new DeleteMessageTask(getActivity(), convoId){
 
             @Override
             protected void onSuccess(Boolean aBoolean) throws Exception {

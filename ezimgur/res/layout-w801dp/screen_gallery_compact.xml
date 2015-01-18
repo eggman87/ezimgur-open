@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res/com.ezimgur"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/Black">
+            <ImageView
+                    android:id="@+id/banana_for_scale"
+                    android:src="@drawable/banana"
+                    android:layout_alignParentTop="true"
+                    android:layout_height="120dip"
+                    android:layout_width="120dip"
+                    android:minHeight="100dip"
+                    android:minWidth="100dip"
+                    android:visibility="gone"/>
+            <Gallery
+                    android:id="@+id/main_vp_thumbnails"
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:spacing="0dip"
+                    android:background="#000000"/>
+            <View
+                    android:id="@+id/screen_gallery_compact_v_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height=".5dp"
+                    android:layout_below="@id/main_vp_thumbnails"
+                    android:background="@color/ezimgur_red"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="8">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="3">
+            <com.ezimgur.view.component.ProgressWheel
+                    android:id="@+id/screen_gallery_compact_screen_progress"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    app:matProg_barColor="@color/ezimgur_red"
+                    app:matProg_progressIndeterminate="true" />
+            <com.ezimgur.view.component.NonSwipeableViewPager
+                    android:id="@+id/screen_gallery_compact_vp_images"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+        </RelativeLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="5">
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/widget_accent"/>
+            <fragment
+                    android:id="@+id/screen_gallery_compact_frag_item_details"
+                    android:layout_height="100dp"
+                    android:layout_width="wrap_content"
+                    android:animateLayoutChanges="true"
+                    class="com.ezimgur.view.fragment.ItemDetailsFragment"/>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+            <com.ezimgur.view.component.ProgressWheel
+                    android:id="@+id/screen_gallery_compact_captions_progress"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    app:matProg_barColor="@color/ezimgur_red"
+                    app:matProg_progressIndeterminate="true" />
+            <ListView
+                    android:id="@+id/screen_gallery_compact_lv_captions"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
+
+
+

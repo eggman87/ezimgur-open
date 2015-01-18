@@ -1,6 +1,7 @@
 package com.ezimgur.task;
 
 import android.content.Context;
+import com.ezimgur.api.ConversationApi;
 import com.ezimgur.api.MessageApi;
 
 import javax.inject.Inject;
@@ -13,17 +14,20 @@ import javax.inject.Inject;
  */
 public class DeleteMessageTask extends LoadingTask<Boolean> {
 
-    @Inject MessageApi mMessageApi;
-    private int mId;
+    @Inject
+    ConversationApi conversationApi;
+
+    private int conversationId;
 
     public DeleteMessageTask(Context context, int id) {
         super(context);
-        mId = id;
+
+        this.conversationId = conversationId;
     }
 
     @Override
     public Boolean call() throws Exception {
-        mMessageApi.deleteMessage(mId);
+        conversationApi.deleteConversation(conversationId);
         return true;
     }
 }

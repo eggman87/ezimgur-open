@@ -38,7 +38,7 @@ public class CommunityActivity extends BaseActivity {
     }
 
     public void onOpenMessageDetailEvent(@Observes OpenMessageDetailEvent event){
-        mFragmentAdapter.goToMessageDetail(event.messageId);
+        mFragmentAdapter.goToMessageDetail(event.messageId, event.recipient);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class CommunityActivity extends BaseActivity {
             if (!EzApplication.hasToken()) {
                 Toast.makeText(this, "you need to login to create a new message", Toast.LENGTH_SHORT).show();
             } else {
-                mFragmentAdapter.goToMessageDetail(0);
+                mFragmentAdapter.goToMessageDetail(0, "");
             }
             return true;
         }

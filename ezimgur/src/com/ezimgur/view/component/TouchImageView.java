@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.*;
 import android.widget.ImageView;
 import com.ezimgur.R;
+import com.ezimgur.instrumentation.Log;
 import com.ezimgur.view.fragment.ImageViewerFragment;
 import com.ezimgur.view.listener.SwipeGestureDetector;
 
@@ -45,10 +46,14 @@ public class TouchImageView extends ImageView{
     ScaleGestureDetector mScaleDetector;
 
     private OnTouchListener extraTouchListener;
+    private OnTouchListener activityTouchListener;
+
     //private List<String> mMenuItems;
     private String mMenuTitle;
     private boolean mContextMenuEnabled = false;
     private boolean mCenterOnMeasure = false;
+
+
 
     public TouchImageView(Context context) {
         super(context);
@@ -63,6 +68,10 @@ public class TouchImageView extends ImageView{
     public TouchImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initView(context);
+    }
+
+    public void setActivityTouchListener(OnTouchListener listener) {
+        activityTouchListener = listener;
     }
 
     @Override
@@ -88,8 +97,14 @@ public class TouchImageView extends ImageView{
             public boolean onTouch(View v, MotionEvent event) {
                 mScaleDetector.onTouchEvent(event);
 
-                if (extraTouchListener != null)
+                //forward events to extra listeners.
+                if (extraTouchListener != null) {
                     extraTouchListener.onTouch(v, event);
+                }
+                if (activityTouchListener != null) {
+                    activityTouchListener.onTouch(v, event);
+                }
+
                 matrix.getValues(m);
                 float x = m[Matrix.MTRANS_X];
                 float y = m[Matrix.MTRANS_Y];
@@ -150,6 +165,7 @@ public class TouchImageView extends ImageView{
                 }
                 setImageMatrix(matrix);
                 invalidate();
+
                 return true; // indicate event was handled
 
             }
@@ -171,11 +187,6 @@ public class TouchImageView extends ImageView{
         };
 
     }
-
-//    public void setContextMenuItems(List<String> menuItems) {
-//        mMenuItems = menuItems;
-//        mContextMenuEnabled = true;
-//    }
 
     public void setContextMenuTitle(String title) {
         mMenuTitle = title;
@@ -214,6 +225,7 @@ public class TouchImageView extends ImageView{
     }
 
     private void centerImage() {
+        mode = NONE;
         float scale;
         float scaleX =  (float)width / (float)bmWidth;
         float scaleY = (float)height / (float)bmHeight;
@@ -351,5 +363,9 @@ public class TouchImageView extends ImageView{
      */
     public void centerImageOnMeasure(boolean centerImageOnMeasure){
         mCenterOnMeasure = centerImageOnMeasure;
+    }
+
+    public boolean isZoomedIn() {
+        return saveScale > 1f;
     }
 }

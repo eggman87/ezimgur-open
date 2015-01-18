@@ -1,8 +1,10 @@
 package com.ezimgur.view.adapter;
 
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.ezimgur.R;
 import com.ezimgur.datacontract.Message;
@@ -49,13 +51,13 @@ public class MessagesAdapter extends BaseAdapter {
         final ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = UiBuilder.inflate(viewGroup.getContext(), R.layout.view_notification, null);
+            convertView = UiBuilder.inflate(viewGroup.getContext(), R.layout.view_message_thread, null);
 
             viewHolder = new ViewHolder();
-            viewHolder.txtBody = (TextView) convertView.findViewById(R.id.v_not_txt_body);
-            viewHolder.txtTitle = (TextView) convertView.findViewById(R.id.v_not_txt_title);
-            viewHolder.txtSubject = (TextView) convertView.findViewById(R.id.v_not_txt_subject);
-            viewHolder.txtDate = (TextView) convertView.findViewById(R.id.v_not_txt_date);
+            viewHolder.txtBody = (TextView) convertView.findViewById(R.id.v_msg_thread_tv_body);
+            viewHolder.txtFrom = (TextView) convertView.findViewById(R.id.v_msg_thread_tv_from);
+            viewHolder.txtDate = (TextView) convertView.findViewById(R.id.v_msg_thread_tv_date);
+            viewHolder.threadContainer = (RelativeLayout) convertView.findViewById(R.id.v_msg_thread_rl_container);
 
             convertView.setTag(viewHolder);
         } else {
@@ -63,19 +65,18 @@ public class MessagesAdapter extends BaseAdapter {
         }
 
         Message message = mMessages.get(pos);
+        CharSequence time = DateUtils.getRelativeTimeSpanString(message.datetime * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+        viewHolder.txtDate.setText(time);
         viewHolder.txtBody.setText(message.body);
-        viewHolder.txtTitle.setText("from " +message.from);
-        viewHolder.txtSubject.setText(message.subject);
-        viewHolder.txtDate.setText(message.timeStamp);
-
+        viewHolder.txtFrom.setText(message.from);
         return convertView;
     }
 
     static class ViewHolder {
-        TextView txtTitle;
         TextView txtBody;
-        TextView txtSubject;
+        TextView txtFrom;
         TextView txtDate;
+        RelativeLayout threadContainer;
     }
 
 }

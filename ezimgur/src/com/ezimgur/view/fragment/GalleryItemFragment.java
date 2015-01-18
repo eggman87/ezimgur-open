@@ -21,6 +21,7 @@ import com.ezimgur.task.FavoriteItemTask;
 import com.ezimgur.task.GetFileBytesTask;
 import com.ezimgur.task.LoadAlbumImagesTask;
 import com.ezimgur.view.activity.BaseActivity;
+import com.ezimgur.view.activity.GalleryCompactActivity;
 import com.ezimgur.view.component.*;
 import com.ezimgur.view.event.AlbumTotalCountEvent;
 import com.ezimgur.view.event.PageShowEvent;
@@ -137,7 +138,7 @@ public class GalleryItemFragment extends RoboSherlockFragment {
     public void onResume() {
         super.onResume();
 
-        if (videoView != null && isGalleryGif) {
+        if (shown && videoView != null && isGalleryGif) {
             videoView.start();
         }
     }
@@ -265,7 +266,9 @@ public class GalleryItemFragment extends RoboSherlockFragment {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
                         mp.setLooping(true);
-                        mp.start();
+                        if (shown) {
+                            mp.start();
+                        }
                         progressWheel.setVisibility(View.GONE);
                     }
                 });
@@ -275,6 +278,7 @@ public class GalleryItemFragment extends RoboSherlockFragment {
             } else {
 
                 if (useWebViewForGifs) {
+                    videoView.setVisibility(View.GONE);
                     touchWebView.setVisibility(View.VISIBLE);
                     touchWebView.clearCache(true);
                     touchWebView.bringToFront();
@@ -285,6 +289,7 @@ public class GalleryItemFragment extends RoboSherlockFragment {
                             null);
                     progressWheel.setVisibility(View.GONE);
                 } else {
+                    videoView.setVisibility(View.GONE);
                     gifDecoderView.setVisibility(View.VISIBLE);
                     gifDecoderView.stopAnimation();
 
@@ -304,9 +309,11 @@ public class GalleryItemFragment extends RoboSherlockFragment {
 
                     }.execute();
                 }
+
             }
         } else if (!isGalleryGif) {
             touchImageView.setVisibility(View.VISIBLE);
+            videoView.setVisibility(View.GONE);
             touchWebView.setVisibility(View.GONE);
             gifDecoderView.setVisibility(View.GONE);
 
@@ -372,6 +379,17 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         gifDecoderView.setOnFlingListener(getImageViewListener());
         videoView.setOnFlingListener(getImageViewListener());
         attachTextAttachmentListener();
+
+        touchImageView.setActivityTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                GalleryCompactActivity activity = (GalleryCompactActivity) getActivity();
+                if (activity != null) {
+                    activity.zoomInStateChanged(touchImageView.isZoomedIn());
+                }
+                return false;
+            }
+        });
     }
 
     @Override
