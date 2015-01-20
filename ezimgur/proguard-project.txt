@@ -121,4 +121,7 @@
      -keep public class com.ezimgur.api.impl.** {
          public protected *;
      }
+     -keep public class com.ezimgur.api.http.** {
+        public protected *;
+     }
 

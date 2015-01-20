@@ -129,6 +129,10 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         Bundle args = getArguments();
         target = args.getParcelable("item");
 
+        if (savedInstanceState != null) {
+            albumIndex = savedInstanceState.getInt("albumIndex");
+        }
+
         transformGalleryItemToTarget();
         loadImage();
         attachListeners();
@@ -141,6 +145,13 @@ public class GalleryItemFragment extends RoboSherlockFragment {
         if (shown && videoView != null && isGalleryGif) {
             videoView.start();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("albumIndex", albumIndex);
     }
 
     @Override
