@@ -6,10 +6,11 @@
               android:background="@android:color/transparent">
         <com.ezimgur.view.component.TouchWebView
                 android:id="@+id/twv_dlg_webview"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:background="@android:color/transparent"/>
-        <com.ezimgur.view.component.TouchImageView
+        <ImageView
                 android:id="@+id/tiv_dlg_imageview"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"

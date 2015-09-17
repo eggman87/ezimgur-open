@@ -7,16 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ezimgur.R;
-import com.ezimgur.view.activity.BaseActivity;
-import com.ezimgur.view.component.TouchImageView;
 import com.ezimgur.view.component.TouchWebView;
 import com.ezimgur.view.event.OnTaskLoadEvent;
-import com.ezimgur.view.utils.EzImageLoader;
 import com.google.inject.Inject;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import roboguice.event.EventManager;
 import roboguice.fragment.RoboDialogFragment;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by EggmanProjects.
@@ -71,13 +72,14 @@ public class DialogContentViewer extends RoboDialogFragment {
         final View v = inflater.inflate(R.layout.dialog_imageview, container, false);
 
         final TouchWebView webView = (TouchWebView) v.findViewById(R.id.twv_dlg_webview);
-        final TouchImageView imageView = (TouchImageView) v.findViewById(R.id.tiv_dlg_imageview);
-
-        imageView.centerImageOnMeasure(true);
+        final ImageView imageView = (ImageView) v.findViewById(R.id.tiv_dlg_imageview);
 
         String lastCharacters = mImageUrl.substring(mImageUrl.length() - 4, mImageUrl.length());
         boolean isImage = false;
-        if ((lastCharacters.equals(".jpg") || lastCharacters.equals(".png")) && !mForceWeb)
+        if ((lastCharacters.equals(".jpg") || lastCharacters.equals(".png") || lastCharacters.equals(".gif")) && !mForceWeb)
+            isImage = true;
+
+        if (mImageUrl.contains(".jpg") || mImageUrl.contains(".png") )
             isImage = true;
 
 
@@ -85,8 +87,13 @@ public class DialogContentViewer extends RoboDialogFragment {
             webView.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
 
-            ImageLoader loader = EzImageLoader.getImageLoaderInstance(getActivity());
-            loader.displayImage(mImageUrl, imageView, BaseActivity.getDefaultImageLoadingListener(mEventManager));
+            Glide.with(this)
+                    .load(mImageUrl)
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(imageView);
+
+            new PhotoViewAttacher(imageView);
 
         } else {
             mEventManager.fire(new OnTaskLoadEvent(OnTaskLoadEvent.TaskLoading.LOAD_STARTED));
